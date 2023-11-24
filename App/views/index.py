@@ -12,7 +12,7 @@ def index_page():
 def init():
     db.drop_all()
     db.create_all()
-    create_user('bob', 'bobpass')
+    create_user('bob',"bob@mail.com", 'bobpass')
     return jsonify(message='The Database has been successfully initialized!')
 
 @index_views.route('/health', methods=['GET'])

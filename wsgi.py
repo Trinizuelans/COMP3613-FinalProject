@@ -25,7 +25,7 @@ def initialize():
     db.drop_all()
     db.create_all()
     create_competitor("rick","rick@mail.com","rickpass")
-    create_admin("ricky","ricky@mail.com","rickypass")
+    create_admin("rick","rick@mail.com","rickpass")
     print(get_all_competitors_json())
     print('database intialized')
 

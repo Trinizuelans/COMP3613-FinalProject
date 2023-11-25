@@ -10,8 +10,6 @@ from.index import index_views
 from App.controllers import (
     create_user,
     jwt_authenticate, 
-    get_all_users,
-    get_all_users_json,
     jwt_required, 
     get_ranked_users,
     get_user_competitions,
@@ -21,10 +19,10 @@ from App.controllers import (
 
 user_views = Blueprint('user_views', __name__, template_folder='../templates')
 
-# @user_views.route('/users', methods=['GET'])
-# def get_user_page():
-#     users = get_all_users()
-#     return render_template('users.html', users=users)
+@user_views.route('/users', methods=['GET'])
+def get_user_page():
+    users = get_all_users()
+    return render_template('users.html', users=users)
 
 @user_views.route('/api/users', methods=['GET'])
 def get_users_action():

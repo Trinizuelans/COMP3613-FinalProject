@@ -1,5 +1,6 @@
 from App.models import Competition
 from App.database import db
+from App.controllers.team import get_team_Byname
 
 def create_competition(name, host_id, location, date, competitionScore):
     
@@ -29,6 +30,9 @@ def get_competition_by_id(id):
     competition = Competition.query.get(id)
     return competition
 
+def get_competition_by_name(name):
+    return Competition.query.filter_by(name=name).first()
+
 def remove_competition(competition_id):
     competition = Competition.query.get(competition_id)
     
@@ -57,7 +61,75 @@ def modify_competition(competition_id, new_name, new_host_id, new_location, new_
             return True
         except Exception as e:
             db.session.rollback()
-    return Fals
+    return False
+
+def add_team(competition_name, team_name):
+    
+    competition = get_competition_by_name(competition_name)
+    
+    if not competition:
+        print("Competition not found")
+        return False
+    
+    team = get_team_Byname(team_name)
+    
+    if not team:
+        print("Team not found")
+        return False
+    
+    add = False
+    
+    if competition:
+        try:
+            competition.teams.append(team)
+            add = True
+        except Exception as e:
+            print("Unable to add team to competition")
+            return False
+        
+    if add == True:
+       try:
+            db.session.add(competition)
+            db.session.commit()
+            return True
+       except Exception as e:
+            db.session.rollback()
+       return False   
+            
+def remove_team(competition_name, team_name):
+    
+    competition = get_competition_by_name(competition_name)
+    
+    if not competition:
+        print("Competition not found")
+        return False
+    
+    team = get_team_Byname(team_name)
+    
+    if not team:
+        print("Team not found")
+        return False
+    
+    remove = False
+    
+    if competition:
+        try:
+            competition.teams.remove(team)
+            remove = True
+        except Exception as e:
+            print("Unable to add team to competition")
+            return False
+        
+    if remove == True:
+       try:
+            db.session.add(competition)
+            db.session.commit()
+            return True
+       except Exception as e:
+            db.session.rollback()
+       return False     
+    
+        
 
 
 # def add_results(user_id, comp_id, rank):

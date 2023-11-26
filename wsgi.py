@@ -4,8 +4,9 @@ from datetime import datetime
 
 from flask.cli import with_appcontext, AppGroup
 from App.controllers.admin import create_admin
-from App.controllers.competitor import create_competitor
-from App.controllers.competition import create_competition, remove_competition, get_all_competitions, get_all_competitions_json, modify_competition
+from App.controllers.competitor import create_competitor, get_competitor_by_username
+from App.controllers.competition import create_competition, remove_competition, get_all_competitions, get_all_competitions_json, modify_competition, add_team, remove_team
+from App.controllers.team import create_team, get_all_teams_json, delete_team, add_competitor_to_team, remove_competitor_to_team, update_team_score
 
 from App.database import db, get_migrate
 from App.main import create_app
@@ -112,6 +113,7 @@ app.cli.add_command(user_cli) # add the group to the cli
 # '''
 
 comps = AppGroup('comp', help = 'commands for competition')   
+app.cli.add_command(comps)
 
 @comps.command("add", help = 'add new competition')
 @click.argument("name", default = "Coding Comp")
@@ -148,6 +150,27 @@ def update_comp(id, name, host_id, location, date, score):
         print("Competition Updated Successfully")
     else:
         print("error updating comp")
+        
+@comps.command("add_team",help ='adds a team to a competition')
+@click.argument("compname", default ="Comp")
+@click.argument("teamname", default ="Team")
+def add_a_team(compname, teamname):
+    team = add_team(compname, teamname)
+    if team:
+        print("Competition Added Team Successfully")
+    else:
+        print("error adding team to comp")
+        
+@comps.command("remove_team",help ='removes a team to a competition')
+@click.argument("compname", default ="Comp")
+@click.argument("teamname", default ="Team")
+def remove_a_team_from_comp(compname, teamname):
+    team = remove_team(compname, teamname)
+    if team:
+        print("Competition Removed Team Successfully")
+    else:
+        print("error removing team to comp")
+
 
 @comps.command("get", help = "list all competitions")
 def get_comps():
@@ -187,5 +210,75 @@ def get_comps():
 
 
 
+# '''
+# Team commands
+# '''
 
-app.cli.add_command(comps)
+teams = AppGroup('team', help = 'commands for competition')   
+
+app.cli.add_command(teams)
+
+@teams.command("add", help = 'add team')
+@click.argument("name", default = "Coding Geeks")
+def make_team(name):
+    team = create_team(name)
+    if team:
+        print("Team Created Successfully")
+    else:
+        print("error adding team")
+        
+@teams.command("remove", help = 'remove team')
+@click.argument("id", default = 1)
+def removeT_team(id):
+    team = delete_team(id)
+    if team:
+        print("Team Removed Successfully")
+    else:
+        print("error removing team")
+        
+
+@teams.command("add_team_competitor", help = 'add a team memeber to a team')
+@click.argument("team_name", default = "Coding Geeks")
+@click.argument("name", default = "rick")
+def add_team_member(team_name, name):
+    competitor = get_competitor_by_username(name)
+    if competitor:
+        team = add_competitor_to_team(competitor, team_name)
+        if team:
+            print("Team Memeber Added Successfully")
+        else:
+            print("error adding team memeber")
+    if not competitor:
+       print("Competitor not found")
+       
+@teams.command("remove_team_competitor", help = 'remove a team memeber to a team')
+@click.argument("team_name", default = "Coding Geeks")
+@click.argument("name", default = "rick")
+def remove_team_member(team_name, name):
+    competitor = get_competitor_by_username(name)
+    if competitor:
+        team = remove_competitor_to_team(competitor, team_name)
+        if team:
+            print("Team Memeber Removed Successfully")
+        else:
+            print("error removing team memeber")
+    if not competitor:
+       print("Competitor not found")
+       
+@teams.command("update_team_score", help = 'update team score')
+@click.argument("team_name", default = "Coding Geeks")
+@click.argument("score", default = 1)
+def update_team_Score(team_name, score):
+    score = update_team_score(team_name, score)
+    if score:
+        print("Team Score Updated Successfully")
+    else:
+        print("error updating team score")
+   
+        
+       
+        
+@teams.command("get", help = 'add team')
+def get_teams():
+     print(get_all_teams_json())
+

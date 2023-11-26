@@ -1,33 +1,63 @@
-# from App.models import Competition,User, UserCompetition
-# from App.database import db
+from App.models import Competition
+from App.database import db
 
-# def create_competition(name, location):
-#     newcomp = Competition(name = name, location = location)
+def create_competition(name, host_id, location, date, competitionScore):
+    
+    newcomp = Competition(name = name, host_id=host_id, location = location, date=date, competitionScore=competitionScore)
+
+    try:
+        db.session.add(newcomp)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return False
+    return True
+
+def get_all_competitions():
+    return Competition.query.all()
+
+def get_all_competitions_json():
+    competition = Competition.query.all()
+
+    if not competition:
+        return []
+    else:
+        return [comp.toDict() for comp in competition]
 
 
-#     try:
-#         db.session.add(newcomp)
-#         db.session.commit()
-#     except Exception as e:
-#         db.session.rollback()
-#         return False
-#     return True
+def get_competition_by_id(id):
+    competition = Competition.query.get(id)
+    return competition
 
-# def get_all_competitions():
-#     return Competition.query.all()
+def remove_competition(competition_id):
+    competition = Competition.query.get(competition_id)
+    
+    if competition:
+        try:
+            db.session.delete(competition)
+            db.session.commit()
+            return True
+        except Exception as e:
+            db.session.rollback()
+    return False
 
-# def get_all_competitions_json():
-#     competition = Competition.query.all()
+def modify_competition(competition_id, new_name, new_host_id, new_location, new_date, new_competition_score):
+    competition = Competition.query.get(competition_id)
+    
+    if competition:
+        try:
+            # Update competition attributes
+            competition.name = new_name
+            competition.host_id = new_host_id
+            competition.location = new_location
+            competition.date = new_date
+            competition.competition_score = new_competition_score
 
-#     if not competition:
-#         return []
-#     else:
-#         return [comp.toDict() for comp in competition]
-
-
-# def get_competition_by_id(id):
-#     competition = Competition.query.get(id)
-#     return competition
+            db.session.commit()
+            return True
+        except Exception as e:
+            db.session.rollback()
+    return Fals
 
 
 # def add_results(user_id, comp_id, rank):

@@ -9,7 +9,12 @@ from App.controllers.competitor import create_competitor
 from App.database import db, get_migrate
 from App.main import create_app
 from App.controllers import (
-                             get_all_competitors_json
+                             get_all_competitors_json,
+                             create_leaderboard,
+                             populate_top20_leaderboards,
+                             show_competitor_leaderboard_rankings,
+                             update_rank
+                             
                              )
 
 
@@ -24,9 +29,23 @@ migrate = get_migrate(app)
 def initialize():
     db.drop_all()
     db.create_all()
-    create_competitor("rick","rick@mail.com","rickpass")
-    create_admin("rick","rick@mail.com","rickpass")
-    print(get_all_competitors_json())
+    create_admin("ricky","ricky@mail.com","rickypass")
+
+    leaderboard = create_leaderboard(1)
+
+    for x in range (25):
+        create_competitor("rick" + str(x) ,"rick"+ str(x) + "@mail.com","rickpass")
+
+    update_rank()
+    
+    print (get_all_competitors_json())
+    # print(get_all_competitors_json())
+    # print(populate_top20_leaderboards())
+    # print("++++++++++++++++++")
+    # print(populate_top20_competitors(1))
+    # print(show_competitor_leaderboard_rankings())
+
+    
     print('database intialized')
 
 '''

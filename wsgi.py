@@ -289,10 +289,11 @@ def remove_team_member(team_name, name):
        print("Competitor not found")
        
 @teams.command("update_team_score", help = 'update team score')
+@click.argument("competition_name", default = "Competition")
 @click.argument("team_name", default = "Coding Geeks")
 @click.argument("score", default = 1)
-def update_team_Score(team_name, score):
-    score = update_team_score(team_name, score)
+def update_team_Score(competition_name ,team_name, score):
+    score = update_team_score(competition_name, team_name, score)
     if score:
         print("Team Score Updated Successfully")
     else:

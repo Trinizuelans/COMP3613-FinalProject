@@ -46,7 +46,7 @@ def add_competitor_overall_points(id,points):
     try:
         competitor = get_competitor(id)
         if competitor:
-            competitor.points = competitor.points + points
+            competitor.overall_points = competitor.overall_points + points
             db.session.add(competitor)
             db.session.commit()
             update_rank()
@@ -59,7 +59,7 @@ def  remove_competitor_overall_points(id,points):
     try:
         competitor = get_competitor(id)
         if competitor:
-            competitor.points = competitor.points - points
+            competitor.overall_points = competitor.overall_points - points
             db.session.add(competitor)
             db.session.commit()
             update_rank()

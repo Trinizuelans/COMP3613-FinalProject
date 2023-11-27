@@ -15,7 +15,9 @@ from App.controllers import (
                              create_leaderboard,
                              populate_top20_leaderboards,
                              show_competitor_leaderboard_rankings,
-                             update_rank
+                             update_rank,
+                             add_competitor_overall_points,
+                             get_all_competitionTeams
                              
                              )
 
@@ -34,13 +36,15 @@ def initialize():
     create_admin("ricky","ricky@mail.com","rickypass")
 
     leaderboard = create_leaderboard(1)
-
+    print(leaderboard.rankListeners)
     for x in range (25):
-        create_competitor("rick" + str(x) ,"rick"+ str(x) + "@mail.com","rickpass")
+         lastperson = create_competitor("rick" + str(x) ,"rick"+ str(x) + "@mail.com","rickpass")
 
+    # print(lastperson.id)
+    # add_competitor_overall_points(25, 5)
     update_rank()
     
-    print (get_all_competitors_json())
+    # print (get_all_competitors_json())
     # print(get_all_competitors_json())
     # print(populate_top20_leaderboards())
     # print("++++++++++++++++++")
@@ -301,3 +305,13 @@ def update_team_Score(team_name, score):
 def get_teams():
      print(get_all_teams_json())
 
+
+compteams = AppGroup('compteam', help = 'commands for competition')   
+
+app.cli.add_command(compteams)
+
+
+@compteams.command("get_comp_teams", help = 'get compteam info')
+def get_comp_team():
+    info = get_all_competitionTeams()
+    print(info)

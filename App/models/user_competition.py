@@ -12,5 +12,5 @@ class UserCompetition(db.Model):
             "comp_id": self.comp_id,
             "user_id": self.user_id,
             "rank": self.rank
-        } 
+        }
         return res

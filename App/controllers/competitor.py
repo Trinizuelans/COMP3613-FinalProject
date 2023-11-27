@@ -1,3 +1,4 @@
+from operator import attrgetter
 from App.models.competitor import Competitor
 from App.database import db
 
@@ -5,8 +6,10 @@ from App.database import db
 def create_competitor(username, email, password):
     newCompetitor = Competitor(username=username,email = email, password=password)
     try:
+
         db.session.add(newCompetitor)
         db.session.commit()
+        update_rank()
         return newCompetitor
     except Exception:
         db.session.rollback()
@@ -46,6 +49,7 @@ def add_competitor_overall_points(id,points):
             competitor.points = competitor.points + points
             db.session.add(competitor)
             db.session.commit()
+            update_rank()
             return competitor
         return None
     except Exception:
@@ -58,6 +62,7 @@ def  remove_competitor_overall_points(id,points):
             competitor.points = competitor.points - points
             db.session.add(competitor)
             db.session.commit()
+            update_rank()
             return competitor
         return None
     
@@ -76,3 +81,20 @@ def delete_competitor(id):
     
     except Exception:
         db.session.rollback()
+
+def update_rank():
+    
+    try:
+        competitors = get_all_competitors()
+        sorted_competitors = sorted(competitors, key=attrgetter('overall_points'), reverse=True)
+        rank = 1
+        
+        for competitor in sorted_competitors:
+            competitor.rank = rank
+            rank += 1
+            db.session.add(competitor)
+        db.session.commit()
+    
+    except Exception:
+        db.session.rollback()
+

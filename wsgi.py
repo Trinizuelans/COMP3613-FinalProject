@@ -5,6 +5,7 @@ from datetime import datetime
 from flask.cli import with_appcontext, AppGroup
 from App.controllers.admin import create_admin
 from App.controllers.competitor import create_competitor
+from App.controllers.competition import create_competition, remove_competition, get_all_competitions, get_all_competitions_json, modify_competition
 
 from App.database import db, get_migrate
 from App.main import create_app
@@ -129,29 +130,51 @@ app.cli.add_command(user_cli) # add the group to the cli
 # Competition commands
 # '''
 
-# comps = AppGroup('comp', help = 'commands for competition')   
+comps = AppGroup('comp', help = 'commands for competition')   
 
-# @comps.command("add", help = 'add new competition')
-# @click.argument("name", default = "Coding Comp")
-# @click.argument("location", default = "Port of Spain")
-# def add_comp(name, location):
-#     response = create_competition(name, location)
-#     if response:
-#         print("Competition Created Successfully")
-#     else:
-#         print("error adding comp")
+@comps.command("add", help = 'add new competition')
+@click.argument("name", default = "Coding Comp")
+@click.argument("host_id", default = 1)
+@click.argument("location", default = "Port of Spain")
+@click.argument("date", default = "26/11/2023")
+@click.argument("score", default = 10)
+def add_comp(name, host_id, location, date, score):
+    comp = create_competition(name, host_id, location, date, score)
+    if comp:
+        print("Competition Created Successfully")
+    else:
+        print("error adding comp")
 
+@comps.command("remove", help = 'remove competition')
+@click.argument("id", default = 1)
+def remove_comp(id):
+    comp = remove_competition(id)
+    if comp:
+        print("Competition Removed Successfully")
+    else:
+        print("error removing comp")
+        
+@comps.command("update", help = 'update competition')
+@click.argument("id", default = 1)
+@click.argument("name", default = "Coding Comp")
+@click.argument("host_id", default = 1)
+@click.argument("location", default = "Port of Spain")
+@click.argument("date", default = "26/11/2023")
+@click.argument("score", default = 10)
+def update_comp(id, name, host_id, location, date, score):
+    comp = modify_competition(id, name, host_id, location, date, score)
+    if comp:
+        print("Competition Updated Successfully")
+    else:
+        print("error updating comp")
 
+@comps.command("get", help = "list all competitions")
+def get_comps():
+    print(get_all_competitions())
 
-
-
-# @comps.command("get", help = "list all competitions")
-# def get_comps():
-#     print(get_all_competitions())
-
-# @comps.command("get_json", help = "list all competitions")
-# def get_comps():
-#     print(get_all_competitions_json())
+@comps.command("get_json", help = "list all competitions")
+def get_comps():
+    print(get_all_competitions_json())
 
 
 # @comps.command("add_user")
@@ -184,4 +207,4 @@ app.cli.add_command(user_cli) # add the group to the cli
 
 
 
-# app.cli.add_command(comps)
+app.cli.add_command(comps)

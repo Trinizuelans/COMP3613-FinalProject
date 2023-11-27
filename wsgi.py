@@ -16,7 +16,8 @@ from App.controllers import (
                              populate_top20_leaderboards,
                              show_competitor_leaderboard_rankings,
                              update_rank,
-                             add_competitor_overall_points
+                             add_competitor_overall_points,
+                             get_all_competitionTeams
                              
                              )
 
@@ -304,3 +305,13 @@ def update_team_Score(team_name, score):
 def get_teams():
      print(get_all_teams_json())
 
+
+compteams = AppGroup('compteam', help = 'commands for competition')   
+
+app.cli.add_command(compteams)
+
+
+@compteams.command("get_comp_teams", help = 'get compteam info')
+def get_comp_team():
+    info = get_all_competitionTeams()
+    print(info)

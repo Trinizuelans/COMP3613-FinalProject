@@ -8,3 +8,4 @@ from .rankDownFromTop20 import *
 from .rankListener import *
 from .rankSwitchInTop20 import *
 from .rankUpToTop20 import *
+from .competitionTeam import *

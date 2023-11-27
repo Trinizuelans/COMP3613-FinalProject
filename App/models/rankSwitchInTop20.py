@@ -33,4 +33,4 @@ class RankSwitchInTop20(RankListener):
             #figure out some way to show updated ranks
 
     
-        print(ranked_switch_competitors)
+        # print(ranked_switch_competitors)

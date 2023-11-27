@@ -1,6 +1,7 @@
 from App.database import db
 from App.models.rankListener import RankListener
 
+
 class RankUpToTop20(RankListener):
     __tablename__ = 'rank_up_to_top20'
     id = db.Column(db.Integer, db.ForeignKey('rank_listener.id'), primary_key=True)
@@ -19,10 +20,18 @@ class RankUpToTop20(RankListener):
         }
     
     def update(self,prev_top20competitors,top20competitors):
-        # print("Rank up message!")
+        from App.models import MessageInbox
+        import App.controllers.message as message
+        
         upranked_competitors = {}
 
         if (prev_top20competitors != top20competitors):
             upranked_competitors = set(top20competitors) - set(prev_top20competitors)
-            # for every upranked competitor, print rank up message along with their new rank
-        print(upranked_competitors)
+            for competitor in upranked_competitors:
+                content = "Great Job! You are in the Top 20 currently at rank at #" + str(competitor.rank)
+
+                competitor_message_inbox = MessageInbox.query.filter_by(competitor_id = competitor.id).first()
+                
+                if competitor_message_inbox:
+                    message.create_message(competitor_message_inbox.id,content)
+                

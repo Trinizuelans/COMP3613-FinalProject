@@ -57,6 +57,7 @@ def populate_top20_leaderboards():
             db.session.add(leaderboard)
             db.session.commit()
             notify_subscribers(leaderboard)
+            # print("notify")
             # print("Prev------------------------------")
             # print(leaderboard.prev_top20competitors)
             # print("Curr------------------------------")

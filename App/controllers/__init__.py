@@ -9,3 +9,5 @@ from .rankListener import *
 from .rankSwitchInTop20 import *
 from .rankUpToTop20 import *
 from .competitionTeam import *
+from .message import *
+from .messageInbox import *

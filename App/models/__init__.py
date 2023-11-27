@@ -11,3 +11,6 @@ from .competition import *
 from .team import *
 from .competitionTeam import *
 from .teamCompetitor import *
+from .message import *
+from .messageInbox import *
+

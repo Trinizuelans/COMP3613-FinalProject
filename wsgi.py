@@ -34,13 +34,13 @@ def initialize():
     create_admin("ricky","ricky@mail.com","rickypass")
 
     leaderboard = create_leaderboard(1)
-
+    print(leaderboard.rankListeners)
     for x in range (25):
         create_competitor("rick" + str(x) ,"rick"+ str(x) + "@mail.com","rickpass")
 
     update_rank()
     
-    print (get_all_competitors_json())
+    # print (get_all_competitors_json())
     # print(get_all_competitors_json())
     # print(populate_top20_leaderboards())
     # print("++++++++++++++++++")

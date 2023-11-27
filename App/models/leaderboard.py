@@ -23,7 +23,12 @@ class Leaderboard(db.Model):
         }
 
     def subscribe(self,rankListener):
-        self.rankListeners.append(rankListener)
+        try:
+            self.rankListeners.append(rankListener)
+            db.session.add()
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
 
     def notify_subscribers(self,prev_top20competitors, top20competitors):
         for rankListener in self.rankListeners:

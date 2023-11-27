@@ -1,21 +1,42 @@
 from sqlalchemy import desc
+from App.controllers.rankDownFromTop20 import create_rankDownListener
+from App.controllers.rankSwitchInTop20 import create_switchListener
+from App.controllers.rankUpToTop20 import create_rankUpListener
 from App.database import db
 from App.models.competitor import Competitor
 from App.models.leaderboard import Leaderboard
-
+from App.models import *
 
 def create_leaderboard(leaderboard_id):
     newLeaderboard = Leaderboard(leaderboard_id= leaderboard_id)
     try:
         db.session.add(newLeaderboard)
-
         db.session.commit()
+
+        init_listeners(leaderboard_id)
         return newLeaderboard
 
     except Exception:
         db.session.rollback()
         return newLeaderboard
+
+def init_listeners(leaderboard_id):
     
+    try:
+        leaderboard = get_leaderboard(leaderboard_id)
+        print(leaderboard)
+        if leaderboard:
+            leaderboard.subscribe(create_rankDownListener(leaderboard_id))
+            leaderboard.subscribe(create_rankUpListener(leaderboard_id))
+            leaderboard.subscribe(create_switchListener(leaderboard_id))
+            db.session.add(leaderboard)
+            db.session.commit()
+
+    except Exception:
+        db.session.rollback()
+
+
+        
 def get_leaderboard(id):
     return Leaderboard.query.filter_by(leaderboard_id = id).first()
 

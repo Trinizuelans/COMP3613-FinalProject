@@ -24,3 +24,11 @@ class Competitor (User):
             'overall_points': self.overall_points,
             'rank': self.rank
         }
+        
+    def toDict(self):
+        return{
+            "id": self.id,
+            "username": self.username,
+            "overall_points": self.overall_points,
+            "rank": self.rank
+        }

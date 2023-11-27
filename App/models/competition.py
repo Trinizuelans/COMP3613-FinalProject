@@ -1,4 +1,3 @@
-from datetime import datetime
 from App.database import db
 
 class Competition(db.Model):
@@ -8,8 +7,7 @@ class Competition(db.Model):
     location = db.Column(db.String(120), nullable=False)
     date = db.Column(db.String(120), nullable=False)
     competitionScore = db.Column(db.Integer, nullable=False)
-  
-    #participants = db.relationship("UserCompetition", lazy=True, backref=db.backref("users"), cascade="all, delete-orphan")
+    teams = db.relationship("Team", secondary="competition_team_association", backref="competition")
 
 
     def __init__(self, name, host_id, location, date, competitionScore):
@@ -27,7 +25,8 @@ class Competition(db.Model):
             'host_id': self.host_id,
             'location': self.location,
             'date': self.date,
-            'competitionScore': self.competitionScore     
+            'competitionScore': self.competitionScore, 
+            'teams': self.teams   
         }
 
 
@@ -39,7 +38,8 @@ class Competition(db.Model):
             "host_id": self.host_id,
             "location": self.location,
             "date": self.date,
-            "competitionScore": self.competitionScore
+            "competitionScore": self.competitionScore,
+            "teams": [team.toDict() for team in self.teams]
             
            
             #"participants": [participant.toDict() for participant in self.participants]

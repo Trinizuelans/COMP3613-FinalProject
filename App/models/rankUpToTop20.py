@@ -17,3 +17,12 @@ class RankUpToTop20(RankListener):
             'listener_id': self.listener_id,
             'previousTop20competitors': self.previousTop20competitors
         }
+    
+    def update(self,prev_top20competitors,top20competitors):
+        # print("Rank up message!")
+        upranked_competitors = {}
+
+        if (prev_top20competitors != top20competitors):
+            upranked_competitors = set(top20competitors) - set(prev_top20competitors)
+            # for every deranked competitor, print rank up message along with their new rank
+        print(upranked_competitors)

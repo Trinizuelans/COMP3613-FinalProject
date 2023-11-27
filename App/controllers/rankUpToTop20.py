@@ -15,5 +15,5 @@ def create_rankUpListener(leaderboard_id):
         db.session.rollback()
 
 
-def update(prev_top20competitors,top20competitors):
-    print("Rank Up message")
+# def update(prev_top20competitors,top20competitors):
+#     print("Rank Up message")

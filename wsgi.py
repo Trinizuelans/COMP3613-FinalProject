@@ -42,7 +42,7 @@ def initialize():
     
     # print (get_all_competitors_json())
     # print(get_all_competitors_json())
-    # print(populate_top20_leaderboards())
+    print(populate_top20_leaderboards())
     # print("++++++++++++++++++")
     # print(populate_top20_competitors(1))
     # print(show_competitor_leaderboard_rankings())

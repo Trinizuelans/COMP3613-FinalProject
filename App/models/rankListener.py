@@ -13,6 +13,8 @@ class RankListener(db.Model):
     def __init__(self,leaderboard_id):
         self.leaderboard_id = leaderboard_id
 
+
+
     def get_json(self):
         return{
             'listener_id': self.id,
@@ -20,3 +22,5 @@ class RankListener(db.Model):
             'previousTop20competitors': self.previousTop20competitors
         }
     
+    def update(self,prev_top20competitors,top20competitors):
+        print("Rank Listener message")

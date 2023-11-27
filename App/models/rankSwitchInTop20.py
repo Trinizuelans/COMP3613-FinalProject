@@ -21,3 +21,16 @@ class RankSwitchInTop20(RankListener):
             'listener_id': self.listener_id,
             'previousTop20competitors': self.previousTop20competitors
         }
+
+    def update(self,prev_top20competitors,top20competitors):
+        # print("Rank Switch message!")
+
+        ranked_switch_competitors = {}
+
+        if (prev_top20competitors != top20competitors):
+            ranked_switch_competitors = set(top20competitors) and set(prev_top20competitors)
+
+            #figure out some way to show updated ranks
+
+    
+        print(ranked_switch_competitors)

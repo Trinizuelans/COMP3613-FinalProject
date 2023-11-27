@@ -30,7 +30,7 @@ class Leaderboard(db.Model):
         except Exception:
             db.session.rollback()
 
-    def notify_subscribers(self,prev_top20competitors, top20competitors):
-        for rankListener in self.rankListeners:
-            rankListener.update(self.prev_top20competitors,self.top20competitors)
+    # def notify_subscribers(self,prev_top20competitors, top20competitors):
+    #     for rankListener in self.rankListeners:
+    #         rankListener.update(self.prev_top20competitors,self.top20competitors)
 

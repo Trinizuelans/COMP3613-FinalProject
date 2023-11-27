@@ -24,7 +24,6 @@ def init_listeners(leaderboard_id):
     
     try:
         leaderboard = get_leaderboard(leaderboard_id)
-        print(leaderboard)
         if leaderboard:
             leaderboard.subscribe(create_rankDownListener(leaderboard_id))
             leaderboard.subscribe(create_rankUpListener(leaderboard_id))
@@ -57,16 +56,28 @@ def populate_top20_leaderboards():
             
             db.session.add(leaderboard)
             db.session.commit()
-            print("Prev------------------------------")
-            print(leaderboard.prev_top20competitors)
-            print("Curr------------------------------")
-            print(leaderboard.top20competitors)
+            notify_subscribers(leaderboard)
+            # print("Prev------------------------------")
+            # print(leaderboard.prev_top20competitors)
+            # print("Curr------------------------------")
+            # print(leaderboard.top20competitors)
+
+            
     except Exception:
         db.rollback()
 
 
 
-    
+def notify_subscribers(leaderboard):
+    for rankListener in leaderboard.rankListeners:
+        rankListener.update(leaderboard.prev_top20competitors,leaderboard.top20competitors)
+
+def show_competitor_leaderboard_rankings():
+    leaderboard = get_leaderboard(1);
+    if leaderboard:
+        sorted_competitors = Competitor.query.filter_by(leaderboard_id=leaderboard.leaderboard_id).order_by(desc(Competitor.overall_points)).all()
+        return sorted_competitors
+    return None
 
 # def populate_top20_competitors(leaderboard_id):
 #         leaderboard = get_leaderboard(leaderboard_id)
@@ -110,9 +121,3 @@ def populate_top20_leaderboards():
 #         print("Top 20 competitors added to the leaderboard successfully.")
 
 
-def show_competitor_leaderboard_rankings():
-    leaderboard = get_leaderboard(1);
-    if leaderboard:
-        sorted_competitors = Competitor.query.filter_by(leaderboard_id=leaderboard.leaderboard_id).order_by(desc(Competitor.overall_points)).all()
-        return sorted_competitors
-    return None

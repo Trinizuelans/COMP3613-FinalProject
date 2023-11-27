@@ -15,7 +15,8 @@ from App.controllers import (
                              create_leaderboard,
                              populate_top20_leaderboards,
                              show_competitor_leaderboard_rankings,
-                             update_rank
+                             update_rank,
+                             add_competitor_overall_points
                              
                              )
 
@@ -36,13 +37,15 @@ def initialize():
     leaderboard = create_leaderboard(1)
     print(leaderboard.rankListeners)
     for x in range (25):
-        create_competitor("rick" + str(x) ,"rick"+ str(x) + "@mail.com","rickpass")
+         lastperson = create_competitor("rick" + str(x) ,"rick"+ str(x) + "@mail.com","rickpass")
 
+    # print(lastperson.id)
+    # add_competitor_overall_points(25, 5)
     update_rank()
     
     # print (get_all_competitors_json())
     # print(get_all_competitors_json())
-    print(populate_top20_leaderboards())
+    # print(populate_top20_leaderboards())
     # print("++++++++++++++++++")
     # print(populate_top20_competitors(1))
     # print(show_competitor_leaderboard_rankings())

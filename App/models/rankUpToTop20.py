@@ -24,5 +24,5 @@ class RankUpToTop20(RankListener):
 
         if (prev_top20competitors != top20competitors):
             upranked_competitors = set(top20competitors) - set(prev_top20competitors)
-            # for every deranked competitor, print rank up message along with their new rank
+            # for every upranked competitor, print rank up message along with their new rank
         print(upranked_competitors)

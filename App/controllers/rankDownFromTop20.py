@@ -16,9 +16,3 @@ def create_rankDownListener(leaderboard_id):
         db.session.rollback()
 
 
-# def update(prev_top20competitors,top20competitors):
-
-#     if (prev_top20competitors != top20competitors):
-#         deranked_competitors = set(prev_top20competitors) - set(top20competitors)
-    
-#     print(deranked_competitors)

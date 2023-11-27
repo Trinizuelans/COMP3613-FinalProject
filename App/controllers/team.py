@@ -105,7 +105,7 @@ def update_team_score(team_name, score):
         return False
     
     if len(team.competitors) == 0:
-       print("No memebers in team. Can't add score")
+       print("No members in team. Can't add score")
        return False
     
     add = False

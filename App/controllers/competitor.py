@@ -1,16 +1,23 @@
 from operator import attrgetter
 from App.models.competitor import Competitor
 from App.database import db
+import App.controllers.leaderboard as leaderboard
+# from App.controllers import create_message_Inbox
 
+import App.controllers.messageInbox as mi
 
 def create_competitor(username, email, password):
     newCompetitor = Competitor(username=username,email = email, password=password)
     try:
-
+        
         db.session.add(newCompetitor)
         db.session.commit()
+
+        mi.create_message_Inbox(newCompetitor.id)
         update_rank()
+
         return newCompetitor
+    
     except Exception:
         db.session.rollback()
         return newCompetitor
@@ -76,6 +83,7 @@ def delete_competitor(id):
         if competitor:
             db.session.delete(competitor)
             db.session.commit()
+            leaderboard.populate_top20_leaderboards()
             return True
         return False
     
@@ -85,6 +93,7 @@ def delete_competitor(id):
 def update_rank():
     
     try:
+        
         competitors = get_all_competitors()
         sorted_competitors = sorted(competitors, key=attrgetter('overall_points'), reverse=True)
         rank = 1
@@ -93,7 +102,9 @@ def update_rank():
             competitor.rank = rank
             rank += 1
             db.session.add(competitor)
-        db.session.commit()
+            db.session.commit()
+        
+        leaderboard.populate_top20_leaderboards()
     
     except Exception:
         db.session.rollback()

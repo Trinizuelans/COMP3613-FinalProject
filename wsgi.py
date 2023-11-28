@@ -17,7 +17,13 @@ from App.controllers import (
                              show_competitor_leaderboard_rankings,
                              update_rank,
                              add_competitor_overall_points,
-                             get_all_competitionTeams
+                             get_all_competitionTeams,
+                             get_all_message_inbox_json,
+                             create_message,
+                             get_message_inbox,
+                             get_latest_message,
+                             get_message_inbox_by_competitor_id
+                             
                              
                              )
 
@@ -36,15 +42,22 @@ def initialize():
     create_admin("ricky","ricky@mail.com","rickypass")
 
     leaderboard = create_leaderboard(1)
-    print(leaderboard.rankListeners)
     for x in range (25):
          lastperson = create_competitor("rick" + str(x) ,"rick"+ str(x) + "@mail.com","rickpass")
 
     # print(lastperson.id)
-    # add_competitor_overall_points(25, 5)
-    update_rank()
+    add_competitor_overall_points(25, 5)
+    # update_rank()
+    # create_message(25, "You are not number 1!!")
+    # create_message(25, "You are number 1!!")
+    # print(get_all_message_inbox_json(25))
+    # print(get_latest_message(25))
+
+
+
+    # print(get_message_inbox_by_competitor_id(18))
     
-    # print (get_all_competitors_json())
+    # print(get_all_competitors_json())
     # print(get_all_competitors_json())
     # print(populate_top20_leaderboards())
     # print("++++++++++++++++++")

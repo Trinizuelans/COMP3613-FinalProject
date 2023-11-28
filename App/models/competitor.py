@@ -7,6 +7,7 @@ class Competitor (User):
     overall_points = db.Column(db.Integer,nullable = False, default = 0)
     rank = db.Column(db.Integer, default = None)
     leaderboard_id = db.Column(db.Integer, db.ForeignKey('leaderboard.leaderboard_id'), nullable=False)
+    messageInbox = db.relationship('MessageInbox', backref="competitor", lazy=True)
 
 
 
@@ -20,12 +21,14 @@ class Competitor (User):
         self.leaderboard_id = 1
 
     def get_json(self):
+        from App.controllers.messageInbox import get_message_inbox_by_competitor_id_json
         return{
             'id': self.id,
             'username': self.username,
             'overall_points': self.overall_points,
             'rank': self.rank,
-            'leaderboard_id': self.leaderboard_id
+            'leaderboard_id': self.leaderboard_id,
+            "messageInbox": get_message_inbox_by_competitor_id_json(self.id)
         }
         
     def toDict(self):
@@ -35,3 +38,6 @@ class Competitor (User):
             "overall_points": self.overall_points,
             "rank": self.rank
         }
+    
+    # def __repr__(self):
+    #     return f"Competitor(id={self.id}, username='{self.username}', overall_points={self.overall_points}, rank={self.rank}, leaderboard_id={self.leaderboard_id})"

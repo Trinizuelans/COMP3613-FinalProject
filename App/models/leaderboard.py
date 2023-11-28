@@ -6,6 +6,7 @@ class Leaderboard(db.Model):
     competitors = db.relationship('Competitor', backref='leaderboard', lazy=True)
     prev_top20competitors = None
     top20competitors = None
+    rank_switch = None
     rankListeners = db.relationship('RankListener', backref='leaderboard', lazy=True)
 
     def __init__(self,leaderboard_id):
@@ -13,6 +14,7 @@ class Leaderboard(db.Model):
         self.prev_top20competitors = []
         self.top20competitors = []
         self.rankListeners = []
+        self.rank_switch = {}
 
     def get_json(self):
         return{
@@ -34,3 +36,5 @@ class Leaderboard(db.Model):
     #     for rankListener in self.rankListeners:
     #         rankListener.update(self.prev_top20competitors,self.top20competitors)
 
+    def __repr__(self):
+        return f"Leaderboard(leaderboard_id={self.leaderboard_id})"

@@ -2,7 +2,7 @@ from App.database import db
 
 class Team(db.Model):
     team_id = db.Column(db.Integer, primary_key=True)
-    team_name = db.Column(db.String(120), nullable=False)
+    team_name = db.Column(db.String(120), nullable=False, unique=True)
     team_score = db.Column(db.Integer, nullable=True)
     competitors = db.relationship("Competitor", secondary="competitor_team_association", backref="team")
    

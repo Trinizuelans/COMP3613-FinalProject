@@ -34,8 +34,8 @@ def get_all_teams_json():
     else:
         return [team.toDict() for team in teams]
     
-def delete_team(team_id):
-    team = Team.query.get(team_id)
+def delete_team(team_name):
+    team = get_team_Byname(team_name)
     
     if not team:
         print("Team not found")

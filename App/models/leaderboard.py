@@ -36,3 +36,5 @@ class Leaderboard(db.Model):
     #     for rankListener in self.rankListeners:
     #         rankListener.update(self.prev_top20competitors,self.top20competitors)
 
+    def __repr__(self):
+        return f"Leaderboard(leaderboard_id={self.leaderboard_id})"

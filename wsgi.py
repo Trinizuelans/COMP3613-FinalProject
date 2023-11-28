@@ -165,9 +165,9 @@ def add_comp(name, host_id, location, date, score):
         print("error adding comp")
 
 @comps.command("remove", help = 'remove competition')
-@click.argument("id", default = 1)
-def remove_comp(id):
-    comp = remove_competition(id)
+@click.argument("name", default = "Comp1")
+def remove_comp(name):
+    comp = remove_competition(name)
     if comp:
         print("Competition Removed Successfully")
     else:

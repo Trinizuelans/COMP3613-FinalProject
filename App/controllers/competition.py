@@ -33,8 +33,8 @@ def get_competition_by_id(id):
 def get_competition_by_name(name):
     return Competition.query.filter_by(name=name).first()
 
-def remove_competition(competition_id):
-    competition = Competition.query.get(competition_id)
+def remove_competition(competition_name):
+    competition = get_competition_by_name(competition_name)
     
     if competition:
         try:
@@ -77,6 +77,10 @@ def add_team(competition_name, team_name):
         print("Team not found")
         return False
     
+    if team in competition.teams:
+        print("Team is already added to the competition")
+        return False
+    
     add = False
     
     if competition:
@@ -108,6 +112,10 @@ def remove_team(competition_name, team_name):
     
     if not team:
         print("Team not found")
+        return False
+    
+    if team not in competition.teams:
+        print("Team is not in the competition")
         return False
     
     remove = False

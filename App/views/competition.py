@@ -70,7 +70,7 @@ def remove_comp():
     return (jsonify({'error': f"error removing competition"}),500)
 
 #update a competiton in the db
-@comp_views.route('/competitionUpdate', methods=['POST'])
+@comp_views.route('/competition', methods=['PUT'])
 def update_comp():
     data = request.json
     response = modify_competition(data['id'], data['name'], data['host_id'], data['location'], data['date'], data['competitionScore'])
@@ -79,7 +79,7 @@ def update_comp():
     return (jsonify({'error': f"error updating competition"}),500)
 
 #add a team to competition in db
-@comp_views.route('/competitionAdd', methods=['POST'])
+@comp_views.route('/competition/team', methods=['PUT'])
 def add_team_comp():
     data = request.json
     response = add_team(data['competition_name'], data['team_name'])
@@ -88,7 +88,7 @@ def add_team_comp():
     return (jsonify({'error': f"error adding team to competition"}),500)
 
 #remove a team from competition in db
-@comp_views.route('/competitionRemove', methods=['POST'])
+@comp_views.route('/competition/team', methods=['DELETE'])
 def remove_team_comp():
     data = request.json
     response = remove_team(data['competition_name'], data['team_name'])

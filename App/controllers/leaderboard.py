@@ -43,6 +43,7 @@ def populate_top20_leaderboards():
     leaderboard  = get_leaderboard(1)
     try:
         if leaderboard:
+            # rank_switch = {}
             leaderboard.prev_top20competitors = leaderboard.top20competitors
             leaderboard.top20competitors = []
             competitors = (
@@ -53,6 +54,26 @@ def populate_top20_leaderboards():
             )
             for competitor in competitors:
                 leaderboard.top20competitors.append(competitor)
+
+                curr_competitor = Competitor.query.get(competitor.id)
+
+                if competitor.id in leaderboard.rank_switch:
+                    # Update the current rank for the competitor
+                    leaderboard.rank_switch[competitor.id]['previous_rank'] = leaderboard.rank_switch[competitor.id]['current_rank']
+                    leaderboard.rank_switch[competitor.id]['current_rank'] = curr_competitor.rank
+                else:
+                    # Add a new entry for the competitor in the dictionary
+                    leaderboard.rank_switch[competitor.id] = {
+                        'competitor_id': competitor.id,
+                        'previous_rank': None,  # Assuming 'rank' is a field in the Competitor model
+                        'current_rank': curr_competitor.rank  # Assuming the rank is the position in the list
+                    }
+
+            for r in leaderboard.rank_switch:
+                curr_competitor = Competitor.query.get(r)
+                # print(curr_competitor)
+                leaderboard.rank_switch[r]['current_rank'] = curr_competitor.rank
+
             
             db.session.add(leaderboard)
             db.session.commit()
@@ -62,7 +83,8 @@ def populate_top20_leaderboards():
             # print(leaderboard.prev_top20competitors)
             # print("Curr------------------------------")
             # print(leaderboard.top20competitors)
-
+            # print("\n")
+            # print(leaderboard.rank_switch)
             
     except Exception:
         db.rollback()
@@ -71,7 +93,7 @@ def populate_top20_leaderboards():
 
 def notify_subscribers(leaderboard):
     for rankListener in leaderboard.rankListeners:
-        rankListener.update(leaderboard.prev_top20competitors,leaderboard.top20competitors)
+        rankListener.update(leaderboard.prev_top20competitors,leaderboard.top20competitors, leaderboard.rank_switch)
 
 def show_competitor_leaderboard_rankings():
     leaderboard = get_leaderboard(1);

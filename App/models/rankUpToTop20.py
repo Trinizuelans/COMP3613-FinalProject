@@ -19,7 +19,7 @@ class RankUpToTop20(RankListener):
             'previousTop20competitors': self.previousTop20competitors
         }
     
-    def update(self,prev_top20competitors,top20competitors):
+    def update(self,prev_top20competitors,top20competitors,rank_switch):
         from App.models import MessageInbox
         import App.controllers.message as message
         

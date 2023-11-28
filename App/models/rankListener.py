@@ -22,5 +22,5 @@ class RankListener(db.Model):
             'previousTop20competitors': self.previousTop20competitors
         }
     
-    def update(self,prev_top20competitors,top20competitors):
+    def update(self,prev_top20competitors,top20competitors,rank_switch):
         print("Rank Listener message")

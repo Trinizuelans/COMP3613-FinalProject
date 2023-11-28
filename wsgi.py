@@ -47,7 +47,7 @@ def initialize():
 
     # print(lastperson.id)
     add_competitor_overall_points(25, 5)
-    update_rank()
+    # update_rank()
     # create_message(25, "You are not number 1!!")
     # create_message(25, "You are number 1!!")
     # print(get_all_message_inbox_json(25))
@@ -57,7 +57,7 @@ def initialize():
 
     # print(get_message_inbox_by_competitor_id(18))
     
-    print(get_all_competitors_json())
+    # print(get_all_competitors_json())
     # print(get_all_competitors_json())
     # print(populate_top20_leaderboards())
     # print("++++++++++++++++++")

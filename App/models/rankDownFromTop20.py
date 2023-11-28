@@ -20,7 +20,7 @@ class RankDownFromTop20(RankListener):
             'previousTop20competitors': self.previousTop20competitors
         }
     
-    def update(self,prev_top20competitors,top20competitors):
+    def update(self,prev_top20competitors,top20competitors,rank_switch):
 
         deranked_competitors = {}
 

@@ -76,4 +76,38 @@ def get_latest_message(message_inbox_id):
     except Exception:
         db.session.rollback()
 
+def delete_message_inbox(inbox_id):
+    try:
+        inbox = MessageInbox.query.get(inbox_id)
+        if inbox:
+            deleted =  delete_messages_by_message_inbox_id(inbox_id)
+            if deleted:
+                db.session.delete(inbox)
+                db.session.commit()
+                return True
+        else:
+            print(f"Message Inbox with ID {inbox_id} does not exist.")
+            return False
 
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        db.session.rollback()
+        return False
+    
+
+def delete_messages_by_message_inbox_id(message_inbox_id):
+    try:
+        messages_to_delete = Message.query.filter_by(message_inbox_id=message_inbox_id).all()
+        if messages_to_delete:
+            for message in messages_to_delete:
+                db.session.delete(message)
+            db.session.commit()
+            return True
+        else:
+            print(f"No messages found for Message Inbox ID: {message_inbox_id}")
+            return False
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        db.session.rollback()
+        return False

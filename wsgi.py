@@ -54,7 +54,7 @@ def initialize():
     # print(get_all_message_inbox_json(25))
     # print(get_latest_message(25))
 
-    # print(delete_competitor(1))
+    print(delete_competitor(1))
 
     # print(get_message_inbox_by_competitor_id(18))
     

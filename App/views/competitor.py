@@ -22,7 +22,7 @@ competitor_views = Blueprint('competitor_views', __name__, template_folder='../t
 @competitor_views.route('/api/competitors', methods=['GET'])
 def get_competitors_action():
     users = get_all_competitors_json()
-    return users
+    return (users,200)
 
 @competitor_views.route('/api/competitors', methods=['POST'])
 def create_competitor_endpoint():

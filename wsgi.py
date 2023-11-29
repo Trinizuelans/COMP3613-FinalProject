@@ -22,7 +22,8 @@ from App.controllers import (
                              create_message,
                              get_message_inbox,
                              get_latest_message,
-                             get_message_inbox_by_competitor_id
+                             get_message_inbox_by_competitor_id,
+                             delete_competitor
                              
                              
                              )
@@ -53,7 +54,7 @@ def initialize():
     # print(get_all_message_inbox_json(25))
     # print(get_latest_message(25))
 
-
+    # print(delete_competitor(1))
 
     # print(get_message_inbox_by_competitor_id(18))
     

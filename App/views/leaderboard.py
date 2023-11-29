@@ -17,9 +17,16 @@ leaderboard_views = Blueprint('leaderboard_views', __name__, template_folder='..
 
 @leaderboard_views.route('/api/leaderboard', methods=['GET'])
 def get_leaderboard_action():
-    return get_leaderboard_json(1)
+    leaderboard= get_leaderboard_json(1)
+    if leaderboard:
+        return (leaderboard,200)
+
+    return (jsonify({'error': f"Leaderboard not found"}),400)
 
 @leaderboard_views.route('/api/leaderboard/rankings', methods=['GET'])
 def get_leaderboard_rankings_action():
-    return competitor_list_to_json(show_competitor_leaderboard_rankings())
+    ranking = competitor_list_to_json(show_competitor_leaderboard_rankings())
+    if ranking:
+        return(ranking,200)
     
+    return (jsonify({'error': f"Error retrieving leaderboard rankings"}),400)

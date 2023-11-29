@@ -32,26 +32,12 @@ def get_message_inbox_by_competitor_id_json(competitor_id):
 def get_all_message_inbox():
     return MessageInbox.query.all()
 
-def get_all_message_inbox_json(message_inbox_id):
-    messages = get_all_message_inbox_messages(message_inbox_id)
+def get_all_message_inbox_json():
+    messages = get_all_message_inbox()
     if not messages:
         return []
     messages = [competitor.get_json() for competitor in messages]
     return messages
-
-# def add_message(message_inbox_id, message):
-    
-#     try:
-#         message_inbox = get_message_inbox(message_inbox_id)
-
-#         if message_inbox:
-#             message_inbox.messages.append(message)
-#             db.session.add(message_inbox)
-#             db.session.commit()
-#             return message_inbox
-#         return None
-#     except Exception:
-#         db.session.rollback()
 
 def get_all_message_inbox_messages(message_inbox_id):
         message_inbox = get_message_inbox(message_inbox_id)
@@ -68,17 +54,21 @@ def get_latest_message(message_inbox_id):
                 latest_message.is_read = True
                 db.session.add(latest_message)
                 db.session.commit()
-                return latest_message
+                return latest_message.content
+            
+            if(latest_message.is_read == True):
+                return "No new unread messages"
 
-            return None
+            return "Empty message inbox"
         
         return None
     except Exception:
         db.session.rollback()
 
-def delete_message_inbox(inbox_id):
+def delete_message_inbox(id):
     try:
-        inbox = MessageInbox.query.get(inbox_id)
+        inbox = get_message_inbox_by_competitor_id(id)
+        inbox_id = inbox.id
         if inbox:
             deleted =  delete_messages_by_message_inbox_id(inbox_id)
             if deleted:

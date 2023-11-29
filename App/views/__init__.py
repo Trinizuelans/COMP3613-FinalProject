@@ -7,7 +7,8 @@ from .competition import comp_views
 from .team import team_views
 from .competitor import competitor_views
 from .leaderboard import leaderboard_views
+from .messageinbox import message_inbox_views
 
 
-views = [index_views,auth_views, comp_views, team_views, competitor_views,leaderboard_views]
+views = [index_views,auth_views, comp_views, team_views, competitor_views,leaderboard_views,message_inbox_views]
 # blueprints must be added to this list

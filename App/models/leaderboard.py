@@ -1,3 +1,4 @@
+from flask import jsonify
 from App.database import db
 
 # This is the Publisher for the Observer Design Pattern
@@ -17,11 +18,10 @@ class Leaderboard(db.Model):
         self.rank_switch = {}
 
     def get_json(self):
+        from App.controllers import competitor_list_to_json,get_rankListener_json
         return{
             'leaderboard_id': self.leaderboard_id,
-            'competitors': self.competitors,
-            'top20competitors': self.prev_top20competitors,
-            'rankListener': self.rankListener
+            'rankListeners': get_rankListener_json(self.rankListeners)
         }
 
     def subscribe(self,rankListener):
@@ -32,9 +32,7 @@ class Leaderboard(db.Model):
         except Exception:
             db.session.rollback()
 
-    # def notify_subscribers(self,prev_top20competitors, top20competitors):
-    #     for rankListener in self.rankListeners:
-    #         rankListener.update(self.prev_top20competitors,self.top20competitors)
+    #notify_subscribers moved to leaderboard_controllers
 
     def __repr__(self):
         return f"Leaderboard(leaderboard_id={self.leaderboard_id})"

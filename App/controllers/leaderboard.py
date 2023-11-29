@@ -39,11 +39,15 @@ def init_listeners(leaderboard_id):
 def get_leaderboard(id):
     return Leaderboard.query.filter_by(leaderboard_id = id).first()
 
+def get_leaderboard_json(id):
+    leaderboard = Leaderboard.query.filter_by(leaderboard_id = id).first()
+    return leaderboard.get_json()
+
+
 def populate_top20_leaderboards():
     leaderboard  = get_leaderboard(1)
     try:
         if leaderboard:
-            # rank_switch = {}
             leaderboard.prev_top20competitors = leaderboard.top20competitors
             leaderboard.top20competitors = []
             competitors = (
@@ -71,20 +75,12 @@ def populate_top20_leaderboards():
 
             for r in leaderboard.rank_switch:
                 curr_competitor = Competitor.query.get(r)
-                # print(curr_competitor)
                 leaderboard.rank_switch[r]['current_rank'] = curr_competitor.rank
 
             
             db.session.add(leaderboard)
             db.session.commit()
             notify_subscribers(leaderboard)
-            # print("notify")
-            # print("Prev------------------------------")
-            # print(leaderboard.prev_top20competitors)
-            # print("Curr------------------------------")
-            # print(leaderboard.top20competitors)
-            # print("\n")
-            # print(leaderboard.rank_switch)
             
     except Exception:
         db.rollback()
@@ -101,46 +97,4 @@ def show_competitor_leaderboard_rankings():
         sorted_competitors = Competitor.query.filter_by(leaderboard_id=leaderboard.leaderboard_id).order_by(desc(Competitor.overall_points)).all()
         return sorted_competitors
     return None
-
-# def populate_top20_competitors(leaderboard_id):
-#         leaderboard = get_leaderboard(leaderboard_id)
-        
-#         if leaderboard.competitors:
-#             # Clear the existing top 20 competitors
-#             leaderboard.prevtop20competitors = leaderboard.top20competitors
-#             leaderboard.top20competitors = []
-
-#             # Fetch the top 20 competitors based on overall_points
-#             top_20_competitors = (
-#                 Competitor.query.filter_by(leaderboard_id=leaderboard.leaderboard_id)
-#                 .order_by(desc(Competitor.overall_points))
-#                 .limit(20)
-#                 .all()
-#             )
-
-#             # Add the top 20 competitors to the leaderboard's top20competitors attribute
-#             leaderboard.top20competitors.extend(top_20_competitors)
-#             print(leaderboard.top20competitors)
-#             print("Top 20 competitors added to the leaderboard successfully.")
-
-
-
-# def populate_top20_competitors(leaderboard_id):
-#     leaderboard = get_leaderboard(leaderboard_id)
-
-#     if leaderboard:
-#         # Fetch the top 20 competitors based on overall_points
-#         top_20_competitors = (
-#             Competitor.query.filter_by(leaderboard_id=leaderboard.leaderboard_id)
-#             .order_by(Competitor.overall_points.desc())
-#             .limit(20)
-#             .all()
-#         )
-#         # Update the top 20 competitors list in the leaderboard
-#         # leaderboard.top20competitors = top_20_competitors
-#         # db.session.commit()  # Make sure to commit the changes to the database
-#         print("********************")
-#         print(top_20_competitors)
-#         print("Top 20 competitors added to the leaderboard successfully.")
-
 

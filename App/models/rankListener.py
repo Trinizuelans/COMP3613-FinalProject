@@ -17,9 +17,9 @@ class RankListener(db.Model):
 
     def get_json(self):
         return{
-            'listener_id': self.id,
-            'leaderboard': self.leaderboard,
-            'previousTop20competitors': self.previousTop20competitors
+            'id': self.id,
+            'leaderboard_id': self.leaderboard_id,
+            'type': self.type
         }
     
     def update(self,prev_top20competitors,top20competitors,rank_switch):

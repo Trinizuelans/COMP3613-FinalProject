@@ -53,6 +53,15 @@ def update_competitor(id, username, email,password):
         return competitor
     return None
 
+def competitor_list_to_json(list):
+    
+    if not list:
+        return []
+    
+    competitors = [competitor.get_json() for competitor in list]
+    return competitors
+
+
 def add_competitor_overall_points(id,points):
     
     try:

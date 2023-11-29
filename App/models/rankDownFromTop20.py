@@ -14,11 +14,6 @@ class RankDownFromTop20(RankListener):
     def __init__(self,leaderboard_id):
         self.leaderboard_id = leaderboard_id
 
-    def get_json(self):
-        return{
-            'listener_id': self.listener_id,
-            'previousTop20competitors': self.previousTop20competitors
-        }
     
     def update(self,prev_top20competitors,top20competitors,rank_switch):
 

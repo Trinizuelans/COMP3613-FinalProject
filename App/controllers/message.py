@@ -17,6 +17,24 @@ def create_message(message_inbox_id, content):
 def get_message(id):
     return Message.query.get(id)
 
+def get_message_json(id):
+    m = get_message(id)
+    if m:
+        return m.get_json()
+    return None
+
+def get_all_messages():
+    return Message.query.all()
+
+def get_all_messages_json():
+    messages = get_all_messages()
+
+    if not messages:
+        return []
+    
+    messages = [message.get_json() for message in messages]
+    return messages
+
 def get_all_inbox_messages(message_inbox_id):
     return Message.query.filter_by(message_inbox_id = message_inbox_id).all()
 

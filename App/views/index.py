@@ -1,6 +1,7 @@
 from flask import Blueprint, redirect, render_template, request, send_from_directory, jsonify
 from App.models import db
-from App.controllers import create_user, create_competition, create_team, add_competitor_to_team, create_competitor, add_team
+from App.controllers import create_user, create_competition, create_team, add_competitor_to_team, create_competitor, add_team, create_leaderboard
+from App.controllers.admin import create_admin
 
 index_views = Blueprint('index_views', __name__, template_folder='../templates')
 

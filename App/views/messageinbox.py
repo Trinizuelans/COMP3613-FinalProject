@@ -32,4 +32,4 @@ def get_latest_message_action(inbox_id):
     message = get_latest_message(inbox_id)
     if message:
         return (jsonify({'message':message}),200)
-    return (jsonify({'error': f"Message inbox not found"}), 400)
+    return (jsonify({'error': f"Message inbox not found"}), 404)

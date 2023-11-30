@@ -62,7 +62,7 @@ def update_competitor_endpoint():
 
 
     if updated:
-        return jsonify({'message': f"Admin {admin_id} updated"}), 200
+        return jsonify({'message': f"Admin updated"}), 200
     return jsonify({'error': f"Error updating admin"}), 400
 
 

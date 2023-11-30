@@ -23,7 +23,10 @@ from App.controllers import (
                              get_message_inbox,
                              get_latest_message,
                              get_message_inbox_by_competitor_id,
-                             delete_competitor
+                             delete_competitor,
+                             create_host,
+                             get_host_by_id,
+                             get_host_by_organizationName
                              
                              
                              )
@@ -54,7 +57,7 @@ def initialize():
     # print(get_all_message_inbox_json(25))
     # print(get_latest_message(25))
 
-    print(delete_competitor(1))
+    # print(delete_competitor(1))
 
     # print(get_message_inbox_by_competitor_id(18))
     
@@ -64,7 +67,10 @@ def initialize():
     # print("++++++++++++++++++")
     # print(populate_top20_competitors(1))
     # print(show_competitor_leaderboard_rankings())
+    create_host("Pablo Inc.")
 
+    host1 = get_host_by_id(1)
+    print(host1.toDict())
     
     print('database intialized')
 

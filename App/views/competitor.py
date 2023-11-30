@@ -10,6 +10,7 @@ from App.controllers import (
     add_competitor_overall_points,
     remove_competitor_overall_points,
     delete_competitor,
+    get_competitor_by_username
     
 
 
@@ -21,16 +22,23 @@ competitor_views = Blueprint('competitor_views', __name__, template_folder='../t
 
 @competitor_views.route('/api/competitors', methods=['GET'])
 def get_competitors_action():
-    users = get_all_competitors_json()
-    return (users,200)
+    competitors = get_all_competitors_json()
+    return (competitors,200)
 
 @competitor_views.route('/api/competitors', methods=['POST'])
 def create_competitor_endpoint():
+
     data = request.form
+
+    response = get_competitor_by_username(data['username'])
+
+    if response:
+        return (jsonify({'error': f"Competitor {data['username']} already exist"}),400)
+
     response = create_competitor(data['username'],data['email'],data['password'])
     if response:
         return (jsonify({'message': f"Competitor created"}),201)
-    return (jsonify({'error': f"Error creating user"}),400)
+    return (jsonify({'error': f"Error creating competitor"}),400)
 
 
 @competitor_views.route('/api/competitors', methods=['PUT'])
@@ -44,7 +52,6 @@ def update_competitor_endpoint():
         email=data['email'],
         password=data['password']
     )
-    print(current_user)
     if updated:
         return jsonify({'message': f"Competitor {competitor_id} updated"}), 200
     return jsonify({'error': f"Error updating competitor {competitor_id}"}), 400

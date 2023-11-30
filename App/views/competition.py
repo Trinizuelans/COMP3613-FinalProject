@@ -58,7 +58,7 @@ def add_new_comp():
     response = create_competition(data['name'], data['host_id'], data['location'], data['date'], data['competitionScore'])
     if response:
         return (jsonify({'message': f"competition created"}), 201)
-    return (jsonify({'error': f"error creating competition"}),500)
+    return (jsonify({'error': f"error creating competition"}),400)
 
 #remove a competition from the db
 @comp_views.route('/competitions', methods=['DELETE'])
@@ -67,7 +67,7 @@ def remove_comp():
     response = remove_competition(data['name'])
     if response:
         return (jsonify({'message': f"competition removed"}), 200)
-    return (jsonify({'error': f"error removing competition"}),500)
+    return (jsonify({'error': f"error removing competition"}),400)
 
 #update a competiton in the db
 @comp_views.route('/competition', methods=['PUT'])
@@ -76,7 +76,7 @@ def update_comp():
     response = modify_competition(data['id'], data['name'], data['host_id'], data['location'], data['date'], data['competitionScore'])
     if response:
         return (jsonify({'message': f"competition updated"}), 200)
-    return (jsonify({'error': f"error updating competition"}),500)
+    return (jsonify({'error': f"error updating competition"}),400)
 
 #add a team to competition in db
 @comp_views.route('/competition/team', methods=['PUT'])
@@ -85,7 +85,7 @@ def add_team_comp():
     response = add_team(data['competition_name'], data['team_name'])
     if response:
         return (jsonify({'message': f"competition added team"}), 200)
-    return (jsonify({'error': f"error adding team to competition"}),500)
+    return (jsonify({'error': f"error adding team to competition"}),400)
 
 #remove a team from competition in db
 @comp_views.route('/competition/team', methods=['DELETE'])
@@ -94,7 +94,7 @@ def remove_team_comp():
     response = remove_team(data['competition_name'], data['team_name'])
     if response:
         return (jsonify({'message': f"competition removed team"}), 200)
-    return (jsonify({'error': f"error removing team to competition"}),500)
+    return (jsonify({'error': f"error removing team to competition"}),400)
 
 # @comp_views.route('/competitions/user', methods=['POST'])
 # def add_comp_user():

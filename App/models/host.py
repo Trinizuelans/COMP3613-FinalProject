@@ -2,20 +2,15 @@ from App.database import db
 
 class Host(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    organizationName =  db.Col
-    #competitions = db.relationship("CompetitionHost", lazy=True, backref=db.backref("competitions"), cascade="all, delete-orphan")
+    organizationName =  db.Column(db.String, nullable=False, unique=True)
 
-    def __init__(self,id ,name):
-        self.id = id
-        self.name = name
+    def __init__(self,name):
+        self.organizationName = name
 
     def toDict(self):
         res = {
-            "id": self.id,umn(db.String, nullable=False, unique=True)
-    #website = db.Column(db.String, nullable=True)
-    
-            "name": self.organizationName,
-            #"website": self.website
+            "id": self.id,
+            "name": self.organizationName
         }
         return res
     

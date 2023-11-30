@@ -96,6 +96,9 @@ def remove_points_competitor_action():
 
     id = int(data['competitor_id'])
     points = int(data['points'])
+    
+    if points < 0:
+        return (jsonify({'error': f"Error adding competitor points"}),400)
 
     response = remove_competitor_overall_points(id, points)
     if response:

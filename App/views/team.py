@@ -37,7 +37,7 @@ def make_team():
     response = create_team(data['team_name'])
     if response:
         return (jsonify({'message': f"team created"}), 201)
-    return (jsonify({'error': f"error creating team"}),500)
+    return (jsonify({'error': f"error creating team"}),400)
 
 #remove a team from the db
 @team_views.route('/teams', methods=['DELETE'])
@@ -46,7 +46,7 @@ def erase_team():
     response = delete_team(data['team_name'])
     if response:
         return (jsonify({'message': f"team removed"}), 200)
-    return (jsonify({'error': f"error removing team"}),500)
+    return (jsonify({'error': f"error removing team"}),400)
 
 #add competitor to a team 
 @team_views.route('/teams/competitor', methods=['PUT'])
@@ -56,7 +56,7 @@ def add_team_competitor():
     response = add_competitor_to_team(competitor, data['team_name'])
     if response:
         return (jsonify({'message': f"team member added"}), 200)
-    return (jsonify({'error': f"error adding team member"}),500)
+    return (jsonify({'error': f"error adding team member"}),400)
 
 #remove competitor from a team 
 @team_views.route('/teams/competitor', methods=['DELETE'])
@@ -66,7 +66,7 @@ def remove_team_competitor():
     response = remove_competitor_to_team(competitor, data['team_name'])
     if response:
         return (jsonify({'message': f"team member removed"}), 200)
-    return (jsonify({'error': f"error removing team member"}),500)
+    return (jsonify({'error': f"error removing team member"}),400)
 
 #add score to a team in db
 @team_views.route('/teams/score', methods=['PUT'])
@@ -75,7 +75,7 @@ def add_team_score():
     response = update_team_score(data['competition_name'],data['team_name'], data['score'])
     if response:
         return (jsonify({'message': f"team score added"}), 200)
-    return (jsonify({'error': f"error adding team score"}),500)
+    return (jsonify({'error': f"error adding team score"}),400)
 
       
     

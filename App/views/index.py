@@ -29,3 +29,8 @@ def health_check():
 @index_views.route('/healthcheck', methods=['GET'])
 def health():
     return jsonify({'status':'healthy'})
+
+@index_views.route('/reset', methods=['GET'])
+def delete():
+    db.drop_all()
+    return jsonify(message='db reset!')

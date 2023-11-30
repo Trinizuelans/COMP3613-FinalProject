@@ -1,8 +1,8 @@
 from App.models import Host
 from App.models import db
 
-def create_host(id,name):
-    newHost = Host(id,name)
+def create_host(name):
+    newHost = Host(name)
     try:
         db.session.add(newHost)
         db.session.commit()
@@ -15,4 +15,4 @@ def create_host(id,name):
         return Host.query.get(id)
     
     def get_host_by_organizationName(name):
-        return Host.query.filter_by(username=username).first()
+        return Host.query.filter_by(organizationName=name).first()

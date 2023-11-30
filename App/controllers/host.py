@@ -11,8 +11,8 @@ def create_host(name):
         db.session.rollback()
         return newHost
     
-    def get_host_by_id(id):
-        return Host.query.get(id)
-    
-    def get_host_by_organizationName(name):
-        return Host.query.filter_by(organizationName=name).first()
+def get_host_by_id(id):
+    return Host.query.get(id)
+
+def get_host_by_organizationName(name):
+    return Host.query.filter_by(organizationName=name).first()

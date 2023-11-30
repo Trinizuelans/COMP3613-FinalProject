@@ -18,6 +18,12 @@ def get_admin_by_username(username):
 def get_admin(id):
     return Admin.query.get(id)
 
+def get_admin_json(id):
+    admin = get_admin(id)
+    if admin:
+        return admin.get_json()
+    return None
+
 def get_all_admins():
     return Admin.query.all()
 
@@ -28,14 +34,20 @@ def get_all_admins_json():
     admins = [admin.get_json() for admin in admins]
     return admins
 
-def update_admin(id, username,email):
-    admin = get_admin(id)
-    if admin:
-        admin.username = username
-        admin.email = email
-        db.session.add(admin)
-        return db.session.commit()
-    return None
+def update_admin(id, username,email,password):
+    try:
+        admin = get_admin(id)
+        print(admin)
+        if admin:
+            admin.username = username
+            admin.email = email
+            admin.password = password
+            db.session.add(admin)
+            db.session.commit()
+            return admin
+        return None
+    except Exception:
+        db.session.rollback()
 
 # def create_host():
 

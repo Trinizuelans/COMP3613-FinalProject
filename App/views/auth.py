@@ -8,7 +8,9 @@ from App.controllers import (
     create_user,
     jwt_authenticate,
     get_all_users,
-    login 
+    login,
+    create_competitor 
+    
 )
 
 auth_views = Blueprint('auth_views', __name__, template_folder='../templates')
@@ -59,10 +61,10 @@ def get_users_action():
 @auth_views.route('/api/users', methods=['POST'])
 def create_user_endpoint():
     data = request.json
-    response = create_user(data['username'], data['password'])
+    response = create_competitor(data['username'],data['email'], data['password'])
     if response:
-        return jsonify({'message': f"user created"}), 201
-    return jsonify(error='error creating user'), 500
+        return jsonify({'message': f"Competitor created"}), 201
+    return jsonify(error='error creating Competitor'), 401
 
 @auth_views.route('/api/login', methods=['POST'])
 def user_login_api():

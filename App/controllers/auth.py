@@ -84,11 +84,11 @@ def setup_jwt(app):
         # Check if the identity exists as an Admin or Competitor
         admin = Admin.query.filter_by(username=identity).one_or_none()
         if admin:
-            return admin.id
+            return admin.username
         else:
             competitor = Competitor.query.filter_by(username=identity).one_or_none()
             if competitor:
-                return competitor.id
+                return competitor.username
         return None
 
     @jwt.user_lookup_loader

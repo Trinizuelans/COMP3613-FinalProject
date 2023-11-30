@@ -12,6 +12,15 @@ def index_page():
 def init():
     db.drop_all()
     db.create_all()
+
+    create_admin("ricky","ricky@mail.com","rickypass")
+
+    leaderboard = create_leaderboard(1)
+    for x in range (25):
+        lastperson = create_competitor("rick" + str(x) ,"rick"+ str(x) + "@mail.com","rickpass")
+
+
+
     create_competition("Comp1", 1, "Arima","28-11-2023", 10)
     create_competition("Comp2", 1, "Arima","28-11-2023", 10)
     create_user('bob',"bob@mail.com", 'bobpass')

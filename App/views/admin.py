@@ -24,7 +24,7 @@ def get_admin_action(admin_id):
     admin = get_admin_json(admin_id)
     if admin:
         return (admin,200)
-    return (jsonify({'error': f"Admin not found."}),400)
+    return (jsonify({'error': f"Admin not found"}),404)
 
 @admin_views.route('/api/admins', methods=['POST'])
 def create_admin_action():
@@ -32,8 +32,11 @@ def create_admin_action():
 
     response = get_admin_by_username(data['username'])
 
+    if data['username'] == "" or data['email'] == "":
+        return (jsonify({'error': f"Error creating Admin"}),400)
+
     if response:
-        return (jsonify({'error': f"Admin {data['username']} already exist"}),400)
+        return (jsonify({'error': f"Admin already exist"}),400)
 
 
     response = create_admin(data['username'],data['email'],data['password'])
@@ -46,16 +49,20 @@ def update_competitor_endpoint():
     data = request.form
     admin_id = request.args.get('id')
     admin_id = int(admin_id)
-    print(admin_id)
+
     updated = update_admin(
         admin_id,
         username=data['username'],
         email=data['email'],
         password=data['password']
     )
-    print(updated)
+
+    if data['username'] == "" or data['email'] == "":
+        return (jsonify({'error': f"Error updating Admin"}),400)
+
+
     if updated:
         return jsonify({'message': f"Admin {admin_id} updated"}), 200
-    return jsonify({'error': f"Error updating admin {admin_id}"}), 400
+    return jsonify({'error': f"Error updating admin"}), 400
 
 

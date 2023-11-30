@@ -23,6 +23,8 @@ competitor_views = Blueprint('competitor_views', __name__, template_folder='../t
 @competitor_views.route('/api/competitors', methods=['GET'])
 def get_competitors_action():
     competitors = get_all_competitors_json()
+    if not competitors:
+        return (jsonify({'error': f"Error retrieving competitors"}),400)
     return (competitors,200)
 
 @competitor_views.route('/api/competitors', methods=['POST'])
@@ -32,8 +34,11 @@ def create_competitor_endpoint():
 
     response = get_competitor_by_username(data['username'])
 
+    if data['username'] == "" or data['email'] == "":
+        return (jsonify({'error': f"Error creating competitor"}),400)
+
     if response:
-        return (jsonify({'error': f"Competitor {data['username']} already exist"}),400)
+        return (jsonify({'error': f"Competitor already exist"}),400)
 
     response = create_competitor(data['username'],data['email'],data['password'])
     if response:
@@ -52,9 +57,12 @@ def update_competitor_endpoint():
         email=data['email'],
         password=data['password']
     )
+    if data['username'] == "" or data['email'] == "":
+       return (jsonify({'error': f"Error updating competitor"}),400)
+
     if updated:
-        return jsonify({'message': f"Competitor {competitor_id} updated"}), 200
-    return jsonify({'error': f"Error updating competitor {competitor_id}"}), 400
+        return jsonify({'message': f"Competitor updated"}), 200
+    return jsonify({'error': f"Error updating competitor"}), 400
 
 
 @competitor_views.route('/api/competitors/<int:competitor_id>', methods=['GET'])
@@ -64,23 +72,25 @@ def get_competitor_action(competitor_id):
         return jsonify(competitor)
     return jsonify({'error': 'Competitor not found'}), 404
 
-@competitor_views.route('/api/competitors/addPoints', methods=['PUT'])
+@competitor_views.route('/api/competitors/points/addition', methods=['PUT'])
 def add_points_competitor_action():
     data = request.form
 
     id = int(data['competitor_id'])
     points = int(data['points'])
 
-    print(id)
-    print(points)
+    if points < 0:
+        return (jsonify({'error': f"Error adding competitor points"}),400)
+
     response = add_competitor_overall_points(id, points)
-    print("yo")
-    print(response)
+
+
+
     if response:
-        return (jsonify({'message': f"Competitor points added"}),201)
+        return (jsonify({'message': f"Competitor points added"}),200)
     return (jsonify({'error': f"Error adding competitor points"}),400)
 
-@competitor_views.route('/api/competitors/removePoints', methods=['PUT'])
+@competitor_views.route('/api/competitors/points/deduction', methods=['PUT'])
 def remove_points_competitor_action():
     data = request.form
 
@@ -89,7 +99,7 @@ def remove_points_competitor_action():
 
     response = remove_competitor_overall_points(id, points)
     if response:
-        return (jsonify({'message': f"Competitor points removed"}),201)
+        return (jsonify({'message': f"Competitor points removed"}),200)
     return (jsonify({'error': f"Error removing competitor points"}),400)
 
 @competitor_views.route('/api/competitors/delete/<int:competitor_id>', methods=['DELETE'])
@@ -97,5 +107,5 @@ def delete_competitor_action(competitor_id):
     response = delete_competitor(competitor_id)
 
     if response:
-           return (jsonify({'message': f"Competitor id: {competitor_id} deleted"}),201)
-    return (jsonify({'error': f"Error deleting competitor id: {competitor_id}"}),400)
+           return (jsonify({'message': f"Competitor deleted"}),200)
+    return (jsonify({'error': f"Error deleting competitor"}),400)

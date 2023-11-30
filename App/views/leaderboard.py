@@ -21,7 +21,7 @@ def get_leaderboard_action():
     if leaderboard:
         return (leaderboard,200)
 
-    return (jsonify({'error': f"Leaderboard not found"}),400)
+    return (jsonify({'error': f"Leaderboard not found"}),404)
 
 @leaderboard_views.route('/api/leaderboard/rankings', methods=['GET'])
 def get_leaderboard_rankings_action():

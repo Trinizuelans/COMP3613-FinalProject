@@ -30,6 +30,8 @@ def get_competitor(id):
 
 def get_competitor_json(id):
     c =  Competitor.query.get(id)
+    if not c:
+        return None
     return c.get_json()
 
 def get_all_competitors():

@@ -18,14 +18,14 @@ def get_all_message_inboxes_action():
     m_i = get_all_message_inbox_json()
     if m_i:
         return (m_i,200)
-    return (jsonify({'error': f"Error retrieving message inboxes"}), 400)
+    return (jsonify({'error': f"Error retrieving message inboxes"}), 404)
 
 @message_inbox_views.route('/api/inboxes/<int:competitor_id>', methods=['GET'])
 def get_competitor_message_inboxes_action(competitor_id):
     m_i = get_message_inbox_by_competitor_id_json(competitor_id)
     if m_i:
         return (m_i,200)
-    return (jsonify({'error': f"Error retrieving message inbox"}), 400)
+    return (jsonify({'error': f"Error retrieving message inbox"}), 404)
 
 @message_inbox_views.route('/api/inboxes/latest/<int:inbox_id>', methods=['GET'])
 def get_latest_message_action(inbox_id):

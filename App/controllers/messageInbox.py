@@ -26,7 +26,9 @@ def get_message_inbox_by_competitor_id(competitor_id):
 
 def get_message_inbox_by_competitor_id_json(competitor_id):
     message_inbox = MessageInbox.query.filter_by(competitor_id = competitor_id).first()
-    return message_inbox.get_json()
+    if message_inbox:
+        return message_inbox.get_json()
+    return None
 
 
 def get_all_message_inbox():

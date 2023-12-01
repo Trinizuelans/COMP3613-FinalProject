@@ -14,7 +14,7 @@ def init():
     db.drop_all()
     db.create_all()
 
-    create_admin("ricky","ricky@mail.com","rickypass")
+    a = create_admin("ricky","ricky@mail.com","rickypass")
 
     leaderboard = create_leaderboard(1)
     for x in range (25):
@@ -22,13 +22,13 @@ def init():
 
 
 
-    create_competition("Comp1", 1, "Arima","28-11-2023", 10)
-    create_competition("Comp2", 1, "Arima","28-11-2023", 10)
-    create_team("Team1")
+    b = create_competition("Comp1", 1, "Arima","28-11-2023", 10)
+    c = create_competition("Comp2", 1, "Arima","28-11-2023", 10)
+    d = create_team("Team1")
     rick = create_competitor("Rick", "rick@mail.com", "rickpass")
     sally = create_competitor("Sally", "sally@mail.com", "sallypass")
-    add_competitor_to_team(rick,"Team1")
-    add_team("Comp1","Team1")
+    e = add_competitor_to_team(rick,"Team1")
+    f = add_team("Comp1","Team1")
     return jsonify(message='The Database has been successfully initialized!')
 
 @index_views.route('/health', methods=['GET'])

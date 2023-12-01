@@ -3,11 +3,15 @@ from App.database import db
 
 
 def create_admin(username, email, password):
-    newAdmin = Admin(username=username,email = email, password=password)
+    
     try:
-        db.session.add(newAdmin)
-        db.session.commit()
-        return newAdmin
+        admin = get_admin_by_username(username)
+        if not admin:
+            newAdmin = Admin(username=username,email = email, password=password)
+            db.session.add(newAdmin)
+            db.session.commit()
+            return newAdmin
+        return None
     except Exception:
         db.session.rollback()
         return newAdmin

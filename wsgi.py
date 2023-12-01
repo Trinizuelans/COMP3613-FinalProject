@@ -49,28 +49,7 @@ def initialize():
     for x in range (25):
          lastperson = create_competitor("rick" + str(x) ,"rick"+ str(x) + "@mail.com","rickpass")
 
-    # print(lastperson.id)
     add_competitor_overall_points(25, 5)
-    # update_rank()
-    # create_message(25, "You are not number 1!!")
-    # create_message(25, "You are number 1!!")
-    # print(get_all_message_inbox_json(25))
-    # print(get_latest_message(25))
-
-    # print(delete_competitor(1))
-
-    # print(get_message_inbox_by_competitor_id(18))
-    
-    # print(get_all_competitors_json())
-    # print(get_all_competitors_json())
-    # print(populate_top20_leaderboards())
-    # print("++++++++++++++++++")
-    # print(populate_top20_competitors(1))
-    # print(show_competitor_leaderboard_rankings())
-    create_host("Pablo Inc.")
-
-    host1 = get_host_by_id(1)
-    print(host1.toDict())
     
     print('database intialized')
 
@@ -119,20 +98,40 @@ app.cli.add_command(user_cli) # add the group to the cli
  Test Commands
  '''
 
-# test = AppGroup('test', help='Testing commands') 
+test = AppGroup('test', help='Testing commands')
 
-# @test.command("user", help="Run User tests")
-# @click.argument("type", default="all")
-# def user_tests_command(type):
-#     if type == "unit":
-#         sys.exit(pytest.main(["-k", "UserUnitTests"]))
-#     elif type == "int":
-#         sys.exit(pytest.main(["-k", "UserIntegrationTests"]))
-#     else:
-#         sys.exit(pytest.main(["-k", "App"]))
+@test.command("user", help="Run User tests")
+@click.argument("type", default="all")
+def user_tests_command(type):
+    if type == "unit_competitor":
+        sys.exit(pytest.main(["-k", "CompetitorUnitTests"]))
+    elif type == "unit_admin":
+        sys.exit(pytest.main(["-k", "AdminUnitTests"]))
+    elif type == "unit_leaderboard":
+        sys.exit(pytest.main(["-k", "LeaderboardUnitTests"]))
+    elif type == "unit_rank_listener":
+        sys.exit(pytest.main(["-k", "RankListenerUnitTests"]))
+    elif type == "unit_message_inbox":
+        sys.exit(pytest.main(["-k", "MessageInboxUnitTests"]))
+    elif type == "unit_message":
+        sys.exit(pytest.main(["-k", "MessageUnitTests"]))
+    elif type == "integration_competitor":
+        sys.exit(pytest.main(["-k", "CompetitorIntegrationTests"]))
+    elif type == "integration_admin":
+        sys.exit(pytest.main(["-k", "AdminIntegrationTests"]))
+    elif type == "integration_leaderboard":
+        sys.exit(pytest.main(["-k", "LeaderboardIntegrationTests"]))
+    elif type == "integration_rank_listener":
+        sys.exit(pytest.main(["-k", "RankListenerIntegrationTests"]))
+    elif type == "integration_message_inbox":
+        sys.exit(pytest.main(["-k", "MessageInboxIntegrationTests"]))
+    elif type == "integration_message":
+        sys.exit(pytest.main(["-k", "MessageIntegrationTests"]))
+    else:
+        sys.exit(pytest.main(["-k", "App"]))
 
 
-
+app.cli.add_command(test)
 
 
 # @test.command("competition", help = 'Testing Competition commands')

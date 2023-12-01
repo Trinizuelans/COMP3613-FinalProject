@@ -7,16 +7,20 @@ import App.controllers.messageInbox as mi
 import App.controllers.messageInbox as mi
 
 def create_competitor(username, email, password):
-    newCompetitor = Competitor(username=username,email = email, password=password)
+    
     try:
-        
-        db.session.add(newCompetitor)
-        db.session.commit()
+        competitor= get_competitor_by_username(username)
+        if not competitor:
+            newCompetitor = Competitor(username=username,email = email, password=password)
+            if newCompetitor:
+                db.session.add(newCompetitor)
+                db.session.commit()
 
-        mi.create_message_Inbox(newCompetitor.id)
-        update_rank()
+                mi.create_message_Inbox(newCompetitor.id)
+                update_rank()
 
-        return newCompetitor
+                return newCompetitor
+        return None
     
     except Exception:
         db.session.rollback()

@@ -91,8 +91,45 @@ class MessageUnitTests(unittest.TestCase):
         message = Message(4, "This is a test")
         assert message.message_inbox_id == 4
         assert message.content == "This is a test"
+        
+class CompetitionUnitTests(unittest.TestCase):
+    def testA_new_competition(self):
+        competition = Competition("Competition1", 1,"DCIT", "1-12-2023", 20)
+        assert competition.name == "Competition1"
+        assert competition.host_id == 1
+        assert competition.location == "DCIT"
+        assert competition.date == "1-12-2023"
+        assert competition.competitionScore == 20
+        
+    def testB_competition_get_json(self):
+        competition = Competition("Competition1", 1,"DCIT", "1-12-2023", 20)
+        competition_json = competition.get_json()
+        
+        self.assertDictEqual(competition_json,{
+           'id': None,
+           'name': "Competition1",
+           'host_id': 1,
+           'location': "DCIT",
+           'date': "1-12-2023",
+           'competitionScore': 20,
+           'teams': []
+         })
 
-
+class TeamUnitTests(unittest.TestCase):
+    def testA_new_team(self):
+        team = Team("Team1")
+        assert team.team_name == "Team1"
+        
+    def testB_team_get_json(self):
+        team = Team("Team1")
+        team_json = team.get_json()
+        
+        self.assertDictEqual(team_json, {
+            'team_id': None,
+            'team_name':"Team1",
+            'team_score': 0,
+            'competitors': []     
+        })
 
 '''
     Integration Tests
@@ -209,4 +246,90 @@ class MessageIntegrationTests(unittest.TestCase):
         message = create_message(4, "This is a test")
         assert message.message_inbox_id == 4
         assert message.content == "This is a test"
+        
+        
+class CompetitionIntegrationTests(unittest.TestCase):
+    def testA_new_competition(self):
+        created = create_competition("Competition1", 1,"DCIT", "1-12-2023", 20)
+        assert created == True
+        
+    def testB_competition_get_by_name(self):
+        created = create_competition("Competition1", 1,"DCIT", "1-12-2023", 20)
+        searched_competition = get_competition_by_name("Competition1")
+        assert searched_competition.name == "Competition1"
+        
+    def testC_competition_remove(self):
+        created = create_competition("Competition1", 1,"DCIT", "1-12-2023", 20)
+        removed = remove_competition("Competition1")
+        searched_competition = get_competition_by_name("Competition1")
+        assert removed == True and searched_competition == None
+        
+    def testD_modify_compeition(self):
+        created = create_competition("Competition1", 1,"CSL", "12-1-2023", 30)
+        modified = modify_competition(1,"Competition2", 1,"DCIT", "1-12-2023", 20)
+        search_competition = get_competition_by_name("Competition2")
+        
+        assert modified == True
+        assert search_competition.id == 1
+        assert search_competition.name == "Competition2"
+        assert search_competition.host_id == 1
+        assert search_competition.location == "DCIT"
+        assert search_competition.date == '1-12-2023'
+        assert search_competition.competitionScore == 30
+        
+    def testE_add_team_to_competition(self):
+        createdComp = create_competition("Competition1", 1,"CSL", "12-1-2023", 30)
+        createdTeam = create_team("Team1")
+        added = add_team("Competition1","Team1")
+        assert added == True
+        
+    def testF_remove_team_from_competition(self):
+        createdComp = create_competition("Competition1", 1,"CSL", "12-1-2023", 30)
+        createdTeam = create_team("Team1")
+        added = add_team("Competition1","Team1")
+        removed = remove_team("Competition1","Team1")
+        assert removed == True
+        
+class TeamIntegrationTests(unittest.TestCase):
+    def testA_new_team(self):
+        created = create_team("Team1")
+        assert created == True
+        
+    def testB_team_get_by_name(self):
+        searched_team = get_team_Byname("Team1")
+        assert searched_team.team_name == "Team1"
+        
+    def testC_remove_team(self):
+        removed = delete_team("Team1")
+        searched_team = get_team_Byname("Team1")
+        assert removed == True and searched_team == None
+        
+    def testD_add_competitor_team(self):
+         sally = create_competitor("Sally", "sally@mail.com", "sallypass")
+         created = create_team("Team1")
+         added = add_competitor_to_team(sally, "Team1")
+         assert added == True
+         
+    def testE_remove_competitor_team(self):
+         sally = get_competitor_by_username("Sally")
+         searched_team = get_team_Byname("Team1")
+         print(searched_team.get_json())
+         print(sally)
+         removed = remove_competitor_to_team(sally, "Team1")
+         print(searched_team.get_json())
+         assert removed == True
+        
+    def testF_update_team_score(self):
+        createdComp = create_competition("Competition1", 1,"CSL", "12-1-2023", 30)
+        addedTeam = add_team("Competition1","Team1")
+        sally = get_competitor_by_username("Sally")
+        addedCompetitor = add_competitor_to_team(sally, "Team1")
+        addedScore = update_team_score("Competition1","Team1", 5)
+        searched_team = get_team_Byname("Team1")
+        assert addedScore == True and searched_team.team_score == 5
+
+         
+        
+               
+        
 

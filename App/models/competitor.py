@@ -40,5 +40,5 @@ class Competitor (User):
             "rank": self.rank
         }
     
-    # def __repr__(self):
-    #     return f"Competitor(id={self.id}, username='{self.username}', overall_points={self.overall_points}, rank={self.rank}, leaderboard_id={self.leaderboard_id})"
+    def __repr__(self):
+        return f"Competitor(id={self.id}, username='{self.username}', overall_points={self.overall_points}, rank={self.rank}, leaderboard_id={self.leaderboard_id})"

@@ -90,14 +90,14 @@ def delete_message_inbox(id):
 def delete_messages_by_message_inbox_id(message_inbox_id):
     try:
         messages_to_delete = Message.query.filter_by(message_inbox_id=message_inbox_id).all()
+        
         if messages_to_delete:
             for message in messages_to_delete:
                 db.session.delete(message)
             db.session.commit()
             return True
-        else:
-            print(f"No messages found for Message Inbox ID: {message_inbox_id}")
-            return False
+
+        return True
 
     except Exception as e:
         print(f"An error occurred: {e}")

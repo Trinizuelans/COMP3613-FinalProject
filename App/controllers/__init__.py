@@ -12,3 +12,4 @@ from .competitionTeam import *
 from .message import *
 from .messageInbox import *
 from .host import *
+from .admin import *

@@ -115,6 +115,10 @@ def user_tests_command(type):
         sys.exit(pytest.main(["-k", "MessageInboxUnitTests"]))
     elif type == "unit_message":
         sys.exit(pytest.main(["-k", "MessageUnitTests"]))
+    elif type == "unit_competition":
+        sys.exit(pytest.main(["-k", "CompetitionUnitTests"]))
+    elif type == "unit_team":
+            sys.exit(pytest.main(["-k", "TeamUnitTests"]))
     elif type == "integration_competitor":
         sys.exit(pytest.main(["-k", "CompetitorIntegrationTests"]))
     elif type == "integration_admin":
@@ -127,6 +131,10 @@ def user_tests_command(type):
         sys.exit(pytest.main(["-k", "MessageInboxIntegrationTests"]))
     elif type == "integration_message":
         sys.exit(pytest.main(["-k", "MessageIntegrationTests"]))
+    elif type == "integration_competition":
+        sys.exit(pytest.main(["-k", "CompetitionIntegrationTests"]))
+    elif type == "integration_team":
+        sys.exit(pytest.main(["-k", "TeamIntegrationTests"]))
     else:
         sys.exit(pytest.main(["-k", "App"]))
 

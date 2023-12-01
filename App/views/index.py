@@ -11,25 +11,36 @@ def index_page():
 
 @index_views.route('/init', methods=['GET'])
 def init():
-    db.drop_all()
-    db.create_all()
+    try:
+        # Drop existing tables and create new ones
+        db.drop_all()
+        db.create_all()
 
-    a = create_admin("ricky","ricky@mail.com","rickypass")
+        # Create admin
+        a = create_admin("ricky", "ricky@mail.com", "rickypass")
 
-    leaderboard = create_leaderboard(1)
-    for x in range (25):
-        lastperson = create_competitor("rick" + str(x) ,"rick"+ str(x) + "@mail.com","rickpass")
+        # Create leaderboard and competitors
+        leaderboard = create_leaderboard(1)
+        for x in range(25):
+            lastperson = create_competitor("rick" + str(x), "rick" + str(x) + "@mail.com", "rickpass")
 
+        # Create competitions, teams, and competitors
+        b = create_competition("Comp1", 1, "Arima", "28-11-2023", 10)
+        c = create_competition("Comp2", 1, "Arima", "28-11-2023", 10)
+        d = create_team("Team1")
+        rick = create_competitor("Rick", "rick@mail.com", "rickpass")
+        sally = create_competitor("Sally", "sally@mail.com", "sallypass")
+        y = add_competitor_to_team(rick, "Team1")
+        f = add_team("Comp1", "Team1")
 
+        return jsonify(message='The Database has been successfully initialized!')
 
-    b = create_competition("Comp1", 1, "Arima","28-11-2023", 10)
-    c = create_competition("Comp2", 1, "Arima","28-11-2023", 10)
-    d = create_team("Team1")
-    rick = create_competitor("Rick", "rick@mail.com", "rickpass")
-    sally = create_competitor("Sally", "sally@mail.com", "sallypass")
-    e = add_competitor_to_team(rick,"Team1")
-    f = add_team("Comp1","Team1")
-    return jsonify(message='The Database has been successfully initialized!')
+    except Exception as e:
+        # Log the error (consider using a logging library like 'logging')
+        print(f"Initialization error: {e}")
+
+        # Return an error response
+        return jsonify(message='Error during database initialization'), 500
 
 @index_views.route('/health', methods=['GET'])
 def health_check():

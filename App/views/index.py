@@ -2,6 +2,7 @@ from flask import Blueprint, redirect, render_template, request, send_from_direc
 from App.models import db
 from App.controllers import create_user, create_competition, create_team, add_competitor_to_team, create_competitor, add_team, create_leaderboard
 from App.controllers.admin import create_admin
+import time
 
 index_views = Blueprint('index_views', __name__, template_folder='../templates')
 
@@ -14,7 +15,10 @@ def init():
     try:
         # Drop existing tables and create new ones
         db.drop_all()
+
+        time.sleep(5)
         db.create_all()
+        time.sleep(30)
 
         # Create admin
         a = create_admin("ricky", "ricky@mail.com", "rickypass")

@@ -292,7 +292,7 @@ class CompetitionIntegrationTests(unittest.TestCase):
         
 class TeamIntegrationTests(unittest.TestCase):
     def testA_new_team(self):
-        created = create_team("Team1")
+        created = create_team("Team2")
         assert created == True
         
     def testB_team_get_by_name(self):

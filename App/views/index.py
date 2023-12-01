@@ -24,7 +24,6 @@ def init():
 
     create_competition("Comp1", 1, "Arima","28-11-2023", 10)
     create_competition("Comp2", 1, "Arima","28-11-2023", 10)
-    create_user('bob',"bob@mail.com", 'bobpass')
     create_team("Team1")
     rick = create_competitor("Rick", "rick@mail.com", "rickpass")
     sally = create_competitor("Sally", "sally@mail.com", "sallypass")

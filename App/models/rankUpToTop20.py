@@ -17,16 +17,25 @@ class RankUpToTop20(RankListener):
     def update(self,prev_top20competitors,top20competitors,rank_switch):
         from App.models import MessageInbox
         import App.controllers.message as message
-        
+        # print("\n\nprev")
+        # print(prev_top20competitors)
+        # print("\n\ntop")
+        # print(top20competitors)
+
         upranked_competitors = {}
 
         if (prev_top20competitors != top20competitors):
             upranked_competitors = set(top20competitors) - set(prev_top20competitors)
-            for competitor in upranked_competitors:
-                content = "Great Job! You are in the Top 20 currently at rank at #" + str(competitor.rank)
+            # print("\n\nupranked")
+            # print(upranked_competitors)
 
-                competitor_message_inbox = MessageInbox.query.filter_by(competitor_id = competitor.id).first()
-                
-                if competitor_message_inbox:
-                    message.create_message(competitor_message_inbox.id,content)
-                
+            if upranked_competitors:
+
+                for competitor in upranked_competitors:
+                    content = "Great Job! You are in the Top 20 currently at rank at #" + str(competitor.rank)
+
+                    competitor_message_inbox = MessageInbox.query.filter_by(competitor_id = competitor.id).first()
+                    
+                    if competitor_message_inbox:
+                        message.create_message(competitor_message_inbox.id,content)
+                    

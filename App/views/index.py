@@ -1,4 +1,5 @@
 from flask import Blueprint, redirect, render_template, request, send_from_directory, jsonify
+from App.controllers.competitor import add_competitor_overall_points
 from App.models import db
 from App.controllers import create_user, create_competition, create_team, add_competitor_to_team, create_competitor, add_team, create_leaderboard
 from App.controllers.admin import create_admin
@@ -23,6 +24,8 @@ def init():
         leaderboard = create_leaderboard(1)
         for x in range(25):
             lastperson = create_competitor("rick" + str(x), "rick" + str(x) + "@mail.com", "rickpass")
+
+            add_competitor_overall_points(25, 5)
 
         # Create competitions, teams, and competitors
         b = create_competition("Comp1", 1, "Arima", "28-11-2023", 10)

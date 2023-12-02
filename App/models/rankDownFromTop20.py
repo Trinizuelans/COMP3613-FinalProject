@@ -26,11 +26,12 @@ class RankDownFromTop20(RankListener):
             deranked_competitors =  set(prev_top20competitors) - set(top20competitors)
           
             # for every deranked competitor, print rank down message along with their new rank
-            for competitor in deranked_competitors:
-                content = "Oh no! You are no longer in the top 20!. You fell from your previous Rank to Rank #" + str(competitor.rank)
-                
-                competitor_message_inbox = MessageInbox.query.filter_by(competitor_id = competitor.id).first()
-                if competitor_message_inbox:
-                    message.create_message(competitor_message_inbox.id,content)
+            if deranked_competitors:
+                for competitor in deranked_competitors:
+                    content = "Oh no! You are no longer in the top 20!. You fell from your previous Rank to Rank #" + str(competitor.rank)
+                    
+                    competitor_message_inbox = MessageInbox.query.filter_by(competitor_id = competitor.id).first()
+                    if competitor_message_inbox:
+                        message.create_message(competitor_message_inbox.id,content)
 
 

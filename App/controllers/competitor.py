@@ -1,7 +1,7 @@
 from operator import attrgetter
 from App.models.competitor import Competitor
 from App.database import db
-import App.controllers.leaderboard as leaderboard
+
 import App.controllers.messageInbox as mi
 
 import App.controllers.messageInbox as mi
@@ -120,7 +120,7 @@ def delete_competitor(id):
         db.session.rollback()
 
 def update_rank():
-    
+    from App.controllers import populate_top20_leaderboards
     try:
         
         competitors = get_all_competitors()
@@ -133,7 +133,7 @@ def update_rank():
             db.session.add(competitor)
             db.session.commit()
         
-        leaderboard.populate_top20_leaderboards()
+        populate_top20_leaderboards()
     
     except Exception:
         db.session.rollback()

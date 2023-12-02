@@ -23,20 +23,20 @@ class RankSwitchInTop20(RankListener):
 
         if (prev_top20competitors != top20competitors):
             ranked_switch_competitors = set(top20competitors) & set(prev_top20competitors)
- 
-            for r in ranked_switch_competitors:
-                if(rank_switch[r.id]["previous_rank"] != rank_switch[r.id]["current_rank"]):
+            if ranked_switch_competitors:
+                for r in ranked_switch_competitors:
+                    if(rank_switch[r.id]["previous_rank"] != rank_switch[r.id]["current_rank"]):
 
-                    if(rank_switch[r.id]["previous_rank"] > rank_switch[r.id]["current_rank"]):
-                        content = "Great Job! You increased your rank in the Top 20 from Rank #" + str(rank_switch[r.id]["previous_rank"]) + " to Rank # " + str(rank_switch[r.id]["current_rank"])
+                        if(rank_switch[r.id]["previous_rank"] > rank_switch[r.id]["current_rank"]):
+                            content = "Great Job! You increased your rank in the Top 20 from Rank #" + str(rank_switch[r.id]["previous_rank"]) + " to Rank # " + str(rank_switch[r.id]["current_rank"])
 
-                    if(rank_switch[r.id]["previous_rank"] < rank_switch[r.id]["current_rank"]):
-                        content = "Oh No! Your rank has decreased in the Top 20 from Rank #" + str(rank_switch[r.id]["previous_rank"]) + " to Rank # " + str(rank_switch[r.id]["current_rank"])
+                        if(rank_switch[r.id]["previous_rank"] < rank_switch[r.id]["current_rank"]):
+                            content = "Oh No! Your rank has decreased in the Top 20 from Rank #" + str(rank_switch[r.id]["previous_rank"]) + " to Rank # " + str(rank_switch[r.id]["current_rank"])
 
-                    competitor_message_inbox = MessageInbox.query.filter_by(competitor_id = r.id).first()
-                
-                    if competitor_message_inbox:
-                        message.create_message(competitor_message_inbox.id,content)
+                        competitor_message_inbox = MessageInbox.query.filter_by(competitor_id = r.id).first()
+                    
+                        if competitor_message_inbox:
+                            message.create_message(competitor_message_inbox.id,content)
                     
  
  

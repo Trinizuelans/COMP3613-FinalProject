@@ -10,6 +10,7 @@ from .leaderboard import leaderboard_views
 from .messageinbox import message_inbox_views
 from .message import message_views
 from .admin import admin_views
+from .host import host_views
 
-views = [index_views,auth_views, comp_views, team_views, competitor_views,leaderboard_views,message_inbox_views,message_views,admin_views]
+views = [index_views,auth_views, comp_views, team_views, competitor_views,leaderboard_views,message_inbox_views,message_views,admin_views, host_views]
 # blueprints must be added to this list

@@ -199,7 +199,7 @@ class AdminIntegrationTests(unittest.TestCase):
         admin = get_admin_json(2)
         self.assertDictEqual(admin, {'id': 2, 'username': 'adi', 'email': 'adi@mail.com'})
     
-    def testC_admin_competitor(self):
+    def testC_update_admin(self):
         original_admin = get_admin(1)
         # Check that the initial username is not "pikachu"
         self.assertNotEqual(original_admin.username, "raichu")

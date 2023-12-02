@@ -8,7 +8,9 @@ from App.controllers import (
    get_competitor_by_username,
    add_competitor_to_team,
    remove_competitor_to_team,
-   update_team_score
+   update_team_score,
+   update_rank,
+   populate_top20_leaderboards
 )
 
 team_views = Blueprint('team_views', __name__, template_folder='../templates')
@@ -73,7 +75,10 @@ def remove_team_competitor():
 def add_team_score():
     data = request.json
     response = update_team_score(data['competition_name'],data['team_name'], data['score'])
+    
+    
     if response:
+        update_rank()
         return (jsonify({'message': f"team score added"}), 200)
     return (jsonify({'error': f"error adding team score"}),400)
 

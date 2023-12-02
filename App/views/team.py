@@ -20,7 +20,7 @@ team_views = Blueprint('team_views', __name__, template_folder='../templates')
 @team_views.route('/teams', methods=['GET'])
 def get_teams():
     teams = get_all_teams_json()
-    return (jsonify(teams),200) 
+    return (jsonify(teams),200)
 
 #get team by name
 @team_views.route('/teams/<string:name>', methods=['GET'])
@@ -28,7 +28,7 @@ def get_team_name(name):
     print(name)
     team = get_team_Byname(name)
     if not team:
-        return jsonify({'error': 'team not found'}), 404 
+        return jsonify({'error': 'team not found'}), 404
     return (jsonify([team.toDict()]),200)
 
 
@@ -50,7 +50,7 @@ def erase_team():
         return (jsonify({'message': f"team removed"}), 200)
     return (jsonify({'error': f"error removing team"}),400)
 
-#add competitor to a team 
+#add competitor to a team
 @team_views.route('/teams/competitor', methods=['PUT'])
 def add_team_competitor():
     data = request.json
@@ -60,7 +60,7 @@ def add_team_competitor():
         return (jsonify({'message': f"team member added"}), 200)
     return (jsonify({'error': f"error adding team member"}),400)
 
-#remove competitor from a team 
+#remove competitor from a team
 @team_views.route('/teams/competitor', methods=['DELETE'])
 def remove_team_competitor():
     data = request.json
@@ -76,9 +76,9 @@ def add_team_score():
     data = request.json
     response = update_team_score(data['competition_name'],data['team_name'], data['score'])
     
-    
+    update_rank()
     if response:
-        update_rank()
+        
         return (jsonify({'message': f"team score added"}), 200)
     return (jsonify({'error': f"error adding team score"}),400)
 

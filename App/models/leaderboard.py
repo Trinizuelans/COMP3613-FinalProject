@@ -7,16 +7,18 @@ class Leaderboard(db.Model):
     competitors = db.relationship('Competitor', backref='leaderboard', lazy=True)
     prev_top20competitors = None
     top20competitors = None
-    rank_switch = {}
+    rank_switch = None
     rankListeners = db.relationship('RankListener', backref='leaderboard', lazy=True)
 
     def __init__(self,leaderboard_id):
         self.leaderboard_id = leaderboard_id
         if self.prev_top20competitors is None:  # Check if prev_top20competitors is None
             self.prev_top20competitors = []
-            self.top20competitors = []
+        
+        self.top20competitors = []
         self.rankListeners = []
-        self.rank_switch = {}
+        if self.rank_switch is None:
+            self.rank_switch = {}
 
     def get_json(self):
         from App.controllers import competitor_list_to_json,get_rankListener_json

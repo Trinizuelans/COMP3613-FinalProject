@@ -10,7 +10,8 @@ from App.controllers import (
     add_competitor_overall_points,
     remove_competitor_overall_points,
     delete_competitor,
-    get_competitor_by_username
+    get_competitor_by_username,
+    update_rank
     
 
 
@@ -83,7 +84,7 @@ def add_points_competitor_action():
         return (jsonify({'error': f"Error adding competitor points"}),400)
 
     response = add_competitor_overall_points(id, points)
-
+    update_rank()
 
 
     if response:

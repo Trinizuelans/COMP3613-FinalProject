@@ -1,3 +1,4 @@
+import traceback
 from sqlalchemy import desc
 from App.controllers.rankDownFromTop20 import create_rankDownListener
 from App.controllers.rankSwitchInTop20 import create_switchListener
@@ -49,6 +50,8 @@ def populate_top20_leaderboards():
     try:
         if leaderboard:
             leaderboard.prev_top20competitors = leaderboard.top20competitors
+            db.session.add(leaderboard)
+            db.session.commit()
             leaderboard.top20competitors = []
             competitors = (
                 Competitor.query.filter_by(leaderboard_id=leaderboard.leaderboard_id)  # Assuming 'leaderboard_id' is a field in the Competitor model
@@ -56,10 +59,14 @@ def populate_top20_leaderboards():
                 .limit(20)  # Limit the query to retrieve only the top 20 competitors
                 .all()
             )
+            
+
             for competitor in competitors:
                 leaderboard.top20competitors.append(competitor)
 
                 curr_competitor = Competitor.query.get(competitor.id)
+
+                
 
                 if competitor.id in leaderboard.rank_switch:
                     # Update the current rank for the competitor
@@ -72,7 +79,7 @@ def populate_top20_leaderboards():
                         'previous_rank': None,  # Assuming 'rank' is a field in the Competitor model
                         'current_rank': curr_competitor.rank  # Assuming the rank is the position in the list
                     }
-
+        
             for r in leaderboard.rank_switch:
                 curr_competitor = Competitor.query.get(r)
                 leaderboard.rank_switch[r]['current_rank'] = curr_competitor.rank
@@ -82,7 +89,8 @@ def populate_top20_leaderboards():
             db.session.commit()
             notify_subscribers(leaderboard)
             
-    except Exception:
+    except Exception as e:
+        traceback.print_exc()
         db.rollback()
 
 
